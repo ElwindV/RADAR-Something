@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyBase : MonoBehaviour {
 
-    public const int MODE_MOVING = 1; 
+    public const int MODE_MOVING = 1;
     public const int MODE_STUNNED = 0;
 
     public int mode;
@@ -30,22 +30,22 @@ public class EnemyBase : MonoBehaviour {
 
     [System.NonSerialized] public Rigidbody rb;
 
-    public virtual void Start () {
-     
+    public virtual void Start() {
+
         hitPoints = startHP;
         mode = MODE_MOVING;
         rend = GetComponent<Renderer>();
         rb = GetComponent<Rigidbody>();
         audioSource = GetComponent<AudioSource>();
         player = GameObject.FindGameObjectWithTag("Player");
-        
+
         x = transform.position.x;
         z = transform.position.z;
-        
+
         gameManager = GameObject.FindWithTag("GameManager").GetComponent<GameManager>();
     }
-	
-	public void Update () {
+
+    public void Update() {
         shadeTime += ((!trans) ? 1f : -1f) * Time.deltaTime;
         shadeTime = Mathf.Clamp(shadeTime, 0, 255);
         rend.material.color = new Vector4(rend.material.color.r, rend.material.color.b, rend.material.color.g, shadeTime);
@@ -79,7 +79,7 @@ public class EnemyBase : MonoBehaviour {
     {
         if (other.CompareTag("beam"))
         {
-            StartCoroutine(Invis()); 
+            StartCoroutine(Invis());
         }
     }
 
@@ -113,6 +113,19 @@ public class EnemyBase : MonoBehaviour {
         {
             audioSource.PlayOneShot(sounds[0]);
         }
+    }
+
+    public void ClampPosition() 
+    {
+        float x = Mathf.Clamp(transform.position.x, -transform.parent.position.x, 32 - transform.parent.position.x);
+        float z = Mathf.Clamp(transform.position.z, -transform.parent.position.z, 32 - transform.parent.position.z);
+        transform.position = new Vector3(x, 1, z);
+
+        //Vector3 worldPosition = transform.TransformVector(transform.position);
+        //worldPosition.x = Mathf.Clamp(worldPosition.x, 0, 32);
+        //worldPosition.z = Mathf.Clamp(worldPosition.z, 0, 32);
+        //worldPosition.y = 1.5f;
+        //transform.position = transform.InverseTransformPoint(worldPosition);
     }
 
     public void fadeOut()

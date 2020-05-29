@@ -24,7 +24,7 @@ public class BlueGuy : EnemyBase
             toTarget = toTarget.normalized;
 
             transform.Translate(toTarget * speed * Time.fixedDeltaTime);
-            transform.position = new Vector3(transform.position.x, 1, transform.position.z);
+            ClampPosition();
         }
         else
         {

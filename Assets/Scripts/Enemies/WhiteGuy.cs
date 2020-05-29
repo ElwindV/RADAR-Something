@@ -53,7 +53,8 @@ public class WhiteGuy : EnemyBase {
             }
 
             transform.Translate(direction * speed * Time.fixedDeltaTime);
-            transform.position = new Vector3(transform.position.x, 1, transform.position.z);
+
+            ClampPosition();
         }
         else
         {

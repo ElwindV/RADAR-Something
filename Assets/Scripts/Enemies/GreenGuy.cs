@@ -64,7 +64,7 @@ public class GreenGuy : EnemyBase{
             }
 
             transform.Translate(direction * speed * Time.deltaTime);
-            transform.position = new Vector3(transform.position.x, 1, transform.position.z);
+            ClampPosition();
         }
         else
         {
