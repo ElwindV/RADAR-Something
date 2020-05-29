@@ -52,54 +52,71 @@ public class GameManager : MonoBehaviour {
     public void Update()
     {
         time -= Time.deltaTime;
+        
+        HandleText();
+
+        CheckForFailure();
+        CheckForWin();
+    }
+
+    private void HandleText() 
+    {
         timeText.text = "Time: " + (int)time;
         scoreText.text = "Score: " + score + "   " + multiplier + "X";
         waveText.text = "Wave: " + wave + "/" + enemyPerWave.Length;
         Remaining.text = "Remaining: " + enemyCount;// + "/" + GameObject.FindGameObjectsWithTag("Enemy").Length;
+    }
 
-        if (time < 0f || isDead || hasWon)
-        {
-            deathTime += Time.unscaledDeltaTime;
-            Time.timeScale = slowDownRate.Evaluate(deathTime);
-            Color c = deathScreen.color;
-            c.a = deathScreenRate.Evaluate(deathTime);
-            deathScreen.color = c;
-
-            Color textColor = gameOver.color;
-            textColor.a = deathScreenTextRate.Evaluate(deathTime);
-            gameOver.color = textColor;
-            totalScore.color = textColor;
-
-            totalScore.text = "Total score: " + score;
-            if (hasWon)
-            {
-                gameOver.text = "You've won!";
-                totalScore.text += (" + " + Mathf.FloorToInt(time) + " seconds = " + score + Mathf.FloorToInt(time));
-            }
+    private void CheckForFailure() 
+    {
+        if (! (time < 0f || isDead || hasWon)) {
+            return;
         }
 
-        if (enemyCount == 0 && !hasWon && !isDead) {
-            AnalyticsEvent.LevelComplete($"wave_{wave}");
-            AnalyticsEvent.Custom($"wave_{wave}_completed", new Dictionary<string, object> {
-                {"wave", wave},
-                {"time_elapsed", Time.timeSinceLevelLoad - waveTime}
-            });
+        deathTime += Time.unscaledDeltaTime;
+        Time.timeScale = slowDownRate.Evaluate(deathTime);
+        Color c = deathScreen.color;
+        c.a = deathScreenRate.Evaluate(deathTime);
+        deathScreen.color = c;
 
-            waveTime = Time.timeSinceLevelLoad;
-            wave++;
+        Color textColor = gameOver.color;
+        textColor.a = deathScreenTextRate.Evaluate(deathTime);
+        gameOver.color = textColor;
+        totalScore.color = textColor;
 
-            if (wave < enemyPerWave.Length)
-            {
-                player.RestoreHealth(); time += extraTimePerWave;
-                StartCoroutine(spawnEnemies(enemyPerWave[wave - 1]));
-                AnalyticsEvent.LevelStart($"wave_{wave}");
-            }
-            else
-            {
-                hasWon = true;
-            }
+        totalScore.text = "Total score: " + score;
+        if (!hasWon) {
+            return;
+        }
+        
+        gameOver.text = "You've won!";
+        totalScore.text += (" + " + Mathf.FloorToInt(time) + " seconds = " + score + Mathf.FloorToInt(time));
+    }
+
+    private void CheckForWin() 
+    {
+        if (!(enemyCount == 0 && !hasWon && !isDead)) {
+            return;
         }
 
+        AnalyticsEvent.LevelComplete($"wave_{wave}");
+        AnalyticsEvent.Custom($"wave_{wave}_completed", new Dictionary<string, object> {
+            {"wave", wave},
+            {"time_elapsed", Time.timeSinceLevelLoad - waveTime}
+        });
+
+        waveTime = Time.timeSinceLevelLoad;
+        wave++;
+
+        if (wave < enemyPerWave.Length) {
+            player.RestoreHealth(); time += extraTimePerWave;
+            StartCoroutine(spawnEnemies(enemyPerWave[wave - 1]));
+            AnalyticsEvent.LevelStart($"wave_{wave}");
+        }
+        else {
+            hasWon = true;
+        }
+        
     }
 
     public void resetMultiplier()
