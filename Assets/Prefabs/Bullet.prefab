@@ -249,7 +249,7 @@ MonoBehaviour:
   speed: 15
   direction: {x: 0, y: 0, z: 0}
   myRigidBody: {fileID: 0}
-  damage: 2
+  damage: 8
   explosions:
   - {fileID: 1945821739002164, guid: c4297761a4353f84e93488e6a4c8a9b6, type: 3}
   - {fileID: 1727877601143870, guid: ae49667a5e0cfda428f2019b359845a4, type: 3}

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using UnityEngine.Analytics;
 public class GameManager : MonoBehaviour {
 
     [Header("Time")]
@@ -35,12 +35,14 @@ public class GameManager : MonoBehaviour {
     private GameObject[] spawnPoints;
     private int wave = 0;
     public int[] enemyPerWave;
+    private float waveTime = 0f;
 
     private Player player;
     private bool hasWon = false;
 
     public void Awake ()
     {
+        AnalyticsEvent.GameStart();
         time = beginTime;
         spawnPoints = GameObject.FindGameObjectsWithTag("EnemySpawn");
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
@@ -75,8 +77,15 @@ public class GameManager : MonoBehaviour {
             }
         }
 
-        if (enemyCount == 0 && !hasWon && !isDead)
-        {
+        if (enemyCount == 0 && !hasWon && !isDead) {
+
+            AnalyticsEvent.LevelComplete($"wave_{wave}");
+            AnalyticsEvent.Custom($"wave_{wave}_completed", new Dictionary<string, object> {
+                {"wave", wave},
+                {"time_elapsed", Time.timeSinceLevelLoad - waveTime}
+            });
+
+            waveTime = Time.timeSinceLevelLoad;
             wave++;
 
             if (wave < enemyPerWave.Length)
@@ -107,6 +116,7 @@ public class GameManager : MonoBehaviour {
 
     public void endGame()
     {
+        AnalyticsEvent.GameOver();
         isDead = true;
     }
 
