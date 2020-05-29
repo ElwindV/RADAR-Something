@@ -3,16 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Analytics;
+
 public class GameManager : MonoBehaviour {
 
     [Header("Time")]
-    [Range(0, 100)] public float beginTime;
+    [Range(0, 100)] public float beginTime = 120f;
     private float time;
     public Text timeText;
     [Range(0, 30)] public float extraTimePerWave;
 
     [Header("Score")]
-    private int score;
+    [HideInInspector]
+    public int score;
     public Text scoreText;
 
     [Header("Death")]
@@ -26,7 +28,7 @@ public class GameManager : MonoBehaviour {
     [Range(0, 20)] public float extraTimePerEnemy = 10f;
 
     [System.NonSerialized] public int enemyCount = 0;
-    private int multiplier = 1;
+    [System.NonSerialized] public int multiplier = 1;
 
     [Header("Spawning of Enemies")]
     public Text waveText;
@@ -46,7 +48,7 @@ public class GameManager : MonoBehaviour {
         AnalyticsEvent.LevelStart($"wave_{wave}");
         time = beginTime;
         spawnPoints = GameObject.FindGameObjectsWithTag("EnemySpawn");
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        player = GameObject.FindGameObjectWithTag("Player")?.GetComponent<Player>();
     }
 
     public void Update()
@@ -61,10 +63,13 @@ public class GameManager : MonoBehaviour {
 
     private void HandleText() 
     {
+        if (timeText == null || scoreText == null || waveText || waveText) {
+            return;
+        }
         timeText.text = "Time: " + (int)time;
         scoreText.text = "Score: " + score + "   " + multiplier + "X";
         waveText.text = "Wave: " + wave + "/" + enemyPerWave.Length;
-        Remaining.text = "Remaining: " + enemyCount;// + "/" + GameObject.FindGameObjectsWithTag("Enemy").Length;
+        waveText.text = "Remaining: " + enemyCount;// + "/" + GameObject.FindGameObjectsWithTag("Enemy").Length;
     }
 
     private void CheckForFailure() 
@@ -102,13 +107,14 @@ public class GameManager : MonoBehaviour {
         AnalyticsEvent.LevelComplete($"wave_{wave}");
         AnalyticsEvent.Custom($"wave_{wave}_completed", new Dictionary<string, object> {
             {"wave", wave},
+            {"score", score},
             {"time_elapsed", Time.timeSinceLevelLoad - waveTime}
         });
 
         waveTime = Time.timeSinceLevelLoad;
         wave++;
 
-        if (wave < enemyPerWave.Length) {
+        if (wave < enemyPerWave?.Length) {
             player.RestoreHealth(); time += extraTimePerWave;
             StartCoroutine(spawnEnemies(enemyPerWave[wave - 1]));
             AnalyticsEvent.LevelStart($"wave_{wave}");
