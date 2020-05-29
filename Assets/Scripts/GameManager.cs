@@ -40,13 +40,14 @@ public class GameManager : MonoBehaviour {
     private Player player;
     private bool hasWon = false;
 
-    public void Awake ()
+    public void Awake()
     {
         AnalyticsEvent.GameStart();
+        AnalyticsEvent.LevelStart($"wave_{wave}");
         time = beginTime;
         spawnPoints = GameObject.FindGameObjectsWithTag("EnemySpawn");
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-	}
+    }
 
     public void Update()
     {
@@ -78,7 +79,6 @@ public class GameManager : MonoBehaviour {
         }
 
         if (enemyCount == 0 && !hasWon && !isDead) {
-
             AnalyticsEvent.LevelComplete($"wave_{wave}");
             AnalyticsEvent.Custom($"wave_{wave}_completed", new Dictionary<string, object> {
                 {"wave", wave},
@@ -92,14 +92,15 @@ public class GameManager : MonoBehaviour {
             {
                 player.RestoreHealth(); time += extraTimePerWave;
                 StartCoroutine(spawnEnemies(enemyPerWave[wave - 1]));
+                AnalyticsEvent.LevelStart($"wave_{wave}");
             }
             else
             {
                 hasWon = true;
-            }  
+            }
         }
 
-	}
+    }
 
     public void resetMultiplier()
     {
@@ -117,7 +118,14 @@ public class GameManager : MonoBehaviour {
     public void endGame()
     {
         AnalyticsEvent.GameOver();
+        AnalyticsEvent.LevelFail($"wave_{wave}");
         isDead = true;
+    }
+
+    public void exitGame() 
+    {
+        AnalyticsEvent.LevelQuit($"wave_{wave}");
+        Application.Quit();
     }
 
     private IEnumerator spawnEnemies(int spawnThisWave)

@@ -15,22 +15,18 @@ public class BlueGuy : EnemyBase
     {
         number = player.transform.position - transform.position;
 
-        if (mode == MODE_MOVING)
-        {
-            rb.isKinematic = false;
-            Vector3 toTarget = player.transform.position - transform.position;
-            float speed = 3f;
-
-            toTarget = toTarget.normalized;
-
-            transform.Translate(toTarget * speed * Time.fixedDeltaTime);
-            ClampPosition();
-        }
-        else
-        {
+        if (mode != MODE_MOVING) {
             rb.isKinematic = true;
+            return;
         }
- 
-    }
 
+        rb.isKinematic = false;
+        Vector3 toTarget = player.transform.position - transform.position;
+        float speed = 3f;
+
+        toTarget = toTarget.normalized;
+
+        transform.Translate(toTarget * speed * Time.fixedDeltaTime);
+        ClampPosition();
+    }
 }

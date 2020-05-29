@@ -11,7 +11,6 @@ public class YellowGuy : EnemyBase
     public bool change;
     public float distance;
 
-
     public override void Start()
     {
         base.Start();
@@ -32,62 +31,48 @@ public class YellowGuy : EnemyBase
 	
 	public void FixedUpdate () {
 
-        if (mode == MODE_MOVING)
-        {
-            rb.isKinematic = false;
-            timer -= 1;
-
-            Vector3 toTarget = player.transform.position - transform.position;
-            float distance = Vector3.Distance(player.transform.position, transform.position);
-
-
-            if (distance < 4)
-            {
-                speed = 2.5f;
-                toTarget = toTarget.normalized;
-                direction = toTarget;
-            }
-            else
-            {
-
-                if (timer <= 0)
-                {
-                    timer = 60 * 5;
-
-                    if (change == false)
-                    {
-                        x *= -1;
-                        z *= -1;
-
-                        change = true;
-                    }
-                    else
-                    {
-                        x = Random.Range(-1, 2);
-                        z = Random.Range(-1, 2);
-
-                        while (x == 0 && z == 0)
-                        {
-                            x = Random.Range(-1, 2);
-                            z = Random.Range(-1, 2);
-                        }
-
-                        change = false;
-                    }
-
-
-                    direction = new Vector3(x, 0, z);
-
-                }
-            }
-
-            transform.Translate(direction * speed * Time.fixedDeltaTime);
-            ClampPosition();
-        }
-        else
-        {
+        if (mode != MODE_MOVING) {
             rb.isKinematic = true;
+            return;
         }
 
+        rb.isKinematic = false;
+        timer -= 1;
+
+        Vector3 toTarget = player.transform.position - transform.position;
+        float distance = Vector3.Distance(player.transform.position, transform.position);
+
+        if (distance < 4) {
+            speed = 2.5f;
+            toTarget = toTarget.normalized;
+            direction = toTarget;
+        }
+        else if (timer <= 0) {
+            timer = 60 * 5;
+
+            if (change == false) {
+                x *= -1;
+                z *= -1;
+
+                change = true;
+            }
+            else {
+                x = Random.Range(-1, 2);
+                z = Random.Range(-1, 2);
+
+                while (x == 0 && z == 0) {
+                    x = Random.Range(-1, 2);
+                    z = Random.Range(-1, 2);
+                }
+
+                change = false;
+            }
+
+            direction = new Vector3(x, 0, z);
+        }
+        
+
+        transform.Translate(direction * speed * Time.fixedDeltaTime);
+        ClampPosition(); 
     }
 }

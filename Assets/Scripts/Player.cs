@@ -11,7 +11,6 @@ public class Player : MonoBehaviour
     [SerializeField]
     private Transform bulletSpawnPoint;
     [Range(0,10)] public float shootDelay;
-    private float timerShoot;
     public float maxHitPoints;
     public float hitPoints;
     private float shownHitPoints;
@@ -26,8 +25,9 @@ public class Player : MonoBehaviour
     private bool hasGun = false;
     private GameObject gun;
     private Vector3 gunPosition;
-    private float gunPickupRange = 0.5f;
+    private float gunPickupRange = 1.5f;
     private GameManager gameManager;
+    private float lastFireTime = float.NegativeInfinity;
 
     public void Start()
     {
@@ -41,90 +41,102 @@ public class Player : MonoBehaviour
 
     public void Update ()
     {
-        if (Input.GetKey("escape")) 
-        {
-            Application.Quit();
-        }
-
         shownHitPoints = Mathf.Lerp(shownHitPoints, hitPoints, 10f * Time.deltaTime);
         if(healthBar != null) healthBar.fillAmount = Mathf.Clamp(shownHitPoints, 0, maxHitPoints) / maxHitPoints;
-        
-        timerShoot -= Time.deltaTime;
-        Vector2 input = new Vector2(Input.GetAxisRaw("RightJoyX"), Input.GetAxisRaw("RightJoyY"));
-        //Debug.Log(input.ToString());
-
-        if (timerShoot <= 0)
-        {
-            if (Input.GetButton("Fire1") && hasGun)
-            {
-                GameObject bullet = Instantiate(bulletPrefabs[0]) as GameObject;
-                audioSource.PlayOneShot(sounds[0]);
-                Bullet bulletScript = bullet.GetComponent<Bullet>();
-                timerShoot = shootDelay;
-                bulletScript.Init(bulletSpawnPoint.position, bulletSpawnPoint.forward);
-                Destroy(bullet, 5f);
-            }
-
-            if (Input.GetButton("Fire2"))
-            {
-                audioSource.PlayOneShot(sounds[1]);
-                GameObject bullet = Instantiate(bulletPrefabs[1]) as GameObject;
-                Bullet bulletScript = bullet.GetComponent<Bullet>();
-                timerShoot = shootDelay;
-                bulletScript.Init(bulletSpawnPoint.position, bulletSpawnPoint.forward);
-                Destroy(bullet, 5f);
-            }
-        }
-
-        if (Vector2.Distance(Vector2.zero, input) > .1f)
-        {
-            currentRotation = transform.rotation;
-            if (input.x > 0)
-            {
-                targetRotation = Quaternion.Euler(0, Vector2.Angle(Vector2.down, input), 0);
-            }
-            else
-            {
-                targetRotation = Quaternion.Euler(0, 180 + Vector2.Angle(Vector2.up, input), 0);
-            }
-
-            if(currentRotation != targetRotation)
-            {
-                transform.rotation = Quaternion.Lerp(currentRotation, targetRotation, Time.deltaTime * turnSpeed);
-            }
-        }
-
-        if(transform.position.x < gunPosition.x + gunPickupRange &&
-           transform.position.x > gunPosition.x - gunPickupRange &&
-           transform.position.z < gunPosition.z + gunPickupRange &&
-           transform.position.z > gunPosition.z - gunPickupRange && !hasGun) 
-        {
-            hasGun = true;
-            Destroy(gun);
-            audioSource.PlayOneShot(sounds[2]);
-        }
-    
     }
+
     public void FixedUpdate()
     {
-       // Debug.Log(new Vector3(Input.GetAxisRaw("LeftJoyX"), 0, Input.GetAxisRaw("LeftJoyY")).ToString());
+        if (Input.GetKey("escape"))
+            gameManager.exitGame();
+
         myRigidbody.velocity = new Vector3(Input.GetAxisRaw("LeftJoyX"), 0, Input.GetAxisRaw("LeftJoyY")) * speed * 50f * Time.fixedDeltaTime;
+
+        if (Input.GetButton("Fire1"))
+            ShootGun();
+
+        if (Input.GetButton("Fire2"))
+            ShootWave();
+
+        HandleRotation(new Vector2(Input.GetAxisRaw("RightJoyX"), Input.GetAxisRaw("RightJoyY")));
+
+        HandlePickup();
+    }
+
+    private void HandleRotation(Vector2 input) 
+    {
+        if (Vector2.Distance(Vector2.zero, input) <= .1f)
+            return;
+
+        currentRotation = transform.rotation;
+        targetRotation = (input.x > 0)
+            ? Quaternion.Euler(0, Vector2.Angle(Vector2.down, input), 0)
+            : Quaternion.Euler(0, 180 + Vector2.Angle(Vector2.up, input), 0);
+
+        if (currentRotation != targetRotation) {
+            transform.rotation = Quaternion.Lerp(currentRotation, targetRotation, Time.deltaTime * turnSpeed);
+        } 
+    }
+
+    private void ShootGun() 
+    {
+        if (! hasGun) {
+            return;
+        }
+
+        if (! CanFire()) {
+            return;
+        }
+        var bullet = Instantiate(bulletPrefabs[0]);
+        audioSource.PlayOneShot(sounds[0]);
+        var bulletScript = bullet.GetComponent<Bullet>();
+        lastFireTime = Time.time;
+        bulletScript.Init(bulletSpawnPoint.position, bulletSpawnPoint.forward);
+        Destroy(bullet, 5f);
+    }
+
+    private void ShootWave() 
+    {
+        if (! CanFire()) {
+            return;
+        }
+        audioSource.PlayOneShot(sounds[1]);
+        var bullet = Instantiate(bulletPrefabs[1]);
+        var bulletScript = bullet.GetComponent<Bullet>();
+        lastFireTime = Time.time;
+        bulletScript.Init(bulletSpawnPoint.position, bulletSpawnPoint.forward);
+        Destroy(bullet, 5f);
+    }
+
+    private bool CanFire() 
+    {
+        return (lastFireTime + shootDelay) < Time.time;
     }
 
     public void TakeDamage(float damage)
     {
         hitPoints -= damage;
-        if (hitPoints <= 0)
-        {
-            if (gameManager != null)
-            {
-                gameManager.endGame();
-            }
+        if (hitPoints <= 0 && gameManager != null) {
+            gameManager.endGame();
         }
     }
 
     public void RestoreHealth()
     {
         hitPoints = maxHitPoints;
+    }
+
+    private void HandlePickup() 
+    {
+        if (hasGun)
+            return;
+
+        if (Vector3.Distance(transform.position, gunPosition) >= gunPickupRange) {
+            return;
+        }
+
+        hasGun = true;
+        Destroy(gun);
+        audioSource.PlayOneShot(sounds[2]);
     }
 }

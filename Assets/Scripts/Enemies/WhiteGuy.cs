@@ -23,43 +23,37 @@ public class WhiteGuy : EnemyBase {
 	
 	public void FixedUpdate () 
     {
-        if (mode == MODE_MOVING)
-        {
-            rb.isKinematic = false;
-            timer -= 1;
-            Vector3 toTarget = player.transform.position - transform.position;
-            float distance = Vector3.Distance(player.transform.position, transform.position);
-
-            if (distance < 4)
-            {
-                speed = 2.5f;
-                toTarget = toTarget.normalized;
-                direction = toTarget;
-            }
-            else
-            {
-                speed = 1.2f;
-                if (timer <= 0)
-                {
-                    
-                    timer = 60 * 20;
-
-                    y -= 90;
-
-                    transform.eulerAngles = new Vector3(transform.eulerAngles.x, y, transform.eulerAngles.z);
-
-                    direction = new Vector3(x, 0, z);
-                }
-            }
-
-            transform.Translate(direction * speed * Time.fixedDeltaTime);
-
-            ClampPosition();
-        }
-        else
-        {
+        if (mode != MODE_MOVING) {
             rb.isKinematic = true;
+
+            return;
         }
 
+        rb.isKinematic = false;
+        timer -= 1;
+        Vector3 toTarget = player.transform.position - transform.position;
+        float distance = Vector3.Distance(player.transform.position, transform.position);
+
+        if (distance < 4) {
+            speed = 2.5f;
+            toTarget = toTarget.normalized;
+            direction = toTarget;
+        }
+        else {
+            speed = 1.2f;
+
+            if (timer <= 0) {
+                    
+                timer = 60 * 20;
+                y -= 90;
+
+                transform.eulerAngles = new Vector3(transform.eulerAngles.x, y, transform.eulerAngles.z);
+
+                direction = new Vector3(x, 0, z);
+            }
+        }
+
+        transform.Translate(direction * speed * Time.fixedDeltaTime);
+        ClampPosition();
     }
 }
