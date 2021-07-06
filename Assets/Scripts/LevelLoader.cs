@@ -8,33 +8,34 @@ public class LevelLoader : MonoBehaviour
 
     [Header("Tiles")]
     public GameObject basicFloor;
-    public PixelToObject [] Objects;
+    public PixelToObject[] objects;
 
-    private int width, height;
-    private Color[] pix;
+    private int _width;
+    private int _height;
+    private Color[] _pix;
 
     public void LoadLevel()
     {
-        string holderName = "Level";
+        var holderName = "Level";
         if (transform.Find(holderName))
         {
             DestroyImmediate(transform.Find(holderName).gameObject);
         }
 
-        Transform mapHolder = new GameObject(holderName).transform;
+        var mapHolder = new GameObject(holderName).transform;
         mapHolder.parent = transform;
 
-        width = Mathf.FloorToInt(level.width);
-        height = Mathf.FloorToInt(level.height);
-        pix = level.GetPixels(0, 0, width, height);
+        _width = Mathf.FloorToInt(level.width);
+        _height = Mathf.FloorToInt(level.height);
+        _pix = level.GetPixels(0, 0, _width, _height);
 
         /*Create empty chunks*/
-        int horizontalChunkCount = width / 16 + 1;
-        int verticalChunkCount = height / 9 + 1;
-        Transform[,] chunks = new Transform[horizontalChunkCount, verticalChunkCount];
-        for (int i = 0; i < horizontalChunkCount; i++)
+        var horizontalChunkCount = _width / 16 + 1;
+        var verticalChunkCount = _height / 9 + 1;
+        var chunks = new Transform[horizontalChunkCount, verticalChunkCount];
+        for (var i = 0; i < horizontalChunkCount; i++)
         {
-            for (int j = 0; j < verticalChunkCount; j++)
+            for (var j = 0; j < verticalChunkCount; j++)
             {
                 chunks[i, j] = new GameObject("Chunk " + i + ", " + j).transform;
                 chunks[i, j].parent = mapHolder;
@@ -42,30 +43,29 @@ public class LevelLoader : MonoBehaviour
         }
 
         /*Spawn tiles and places them in chunks*/
-        for (int x = 0; x < width; x++)
+        for (var x = 0; x < _width; x++)
         {
-            for (int y = 0; y < height; y++)
+            for (var y = 0; y < _height; y++)
             {
-                foreach (PixelToObject pto in Objects)
+                foreach (var pto in objects)
                 {
-                    if (pix[x + y * width] == pto.inputColor)
-                    {
-                        GameObject tile = Instantiate(pto.outputObject, new Vector3(x, 0 + pto.extraHeight, y), Quaternion.identity) as GameObject;
-                        tile.transform.parent = chunks[x / 16, y / 9];
-                        if (pto.spawnFloor)
-                        {
-                            GameObject floor = Instantiate(basicFloor, new Vector3(x, 0, y), Quaternion.identity) as GameObject;
-                            floor.transform.parent = chunks[x / 16, y / 9];
-                        }
-                    }  
+                    if (_pix[x + y * _width] != pto.inputColor) continue;
+                    
+                    var tile = Instantiate(pto.outputObject, new Vector3(x, 0 + pto.extraHeight, y), Quaternion.identity) as GameObject;
+                    tile.transform.parent = chunks[x / 16, y / 9];
+
+                    if (!pto.spawnFloor) continue;
+                    
+                    var floor = Instantiate(basicFloor, new Vector3(x, 0, y), Quaternion.identity) as GameObject;
+                    floor.transform.parent = chunks[x / 16, y / 9];
                 }
             }
         }
 
         /*Remove empty chunks*/
-        for (int i = 0; i < horizontalChunkCount; i++)
+        for (var i = 0; i < horizontalChunkCount; i++)
         {
-            for (int j = 0; j < verticalChunkCount; j++)
+            for (var j = 0; j < verticalChunkCount; j++)
             {
                 if (chunks[i, j].childCount == 0) Object.DestroyImmediate(chunks[i, j].gameObject);
             }

@@ -1,24 +1,26 @@
-﻿using NUnit.Framework;
+﻿using System.Linq;
+using NUnit.Framework;
 using UnityEngine;
-using System.Linq;
 
-
-public abstract class MonoBehaviourBaseTest
+namespace Tests
 {
-    protected GameObject subject;
-
-    [SetUp]
-    public virtual void SetUp()
+    public abstract class MonoBehaviourBaseTest
     {
-        subject = new GameObject("Subject");
-    }
+        protected GameObject subject;
 
-    [TearDown]
-    public virtual void TearDown() 
-    {
-        Object.FindObjectsOfType<GameObject>()
-            .ToList()
-            .ForEach(go => Object.DestroyImmediate(go));
+        [SetUp]
+        public virtual void SetUp()
+        {
+            subject = new GameObject("Subject");
+        }
+
+        [TearDown]
+        public virtual void TearDown() 
+        {
+            Object.FindObjectsOfType<GameObject>()
+                .ToList()
+                .ForEach(Object.DestroyImmediate);
+        }
     }
 }
 

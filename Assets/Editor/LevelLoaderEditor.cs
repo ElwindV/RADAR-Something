@@ -1,24 +1,24 @@
-﻿using UnityEngine;
-using System.Collections;
-using UnityEditor;
+﻿using UnityEditor;
+using UnityEngine;
 
-[CustomEditor(typeof(LevelLoader))]
-public class LevelLoaderEditor : Editor 
+namespace Editor
 {
-	private int tabNumber;
+    [CustomEditor(typeof(LevelLoader))]
+    public class LevelLoaderEditor : UnityEditor.Editor 
+    {
+        private int _tabNumber;
 
-	public override void OnInspectorGUI()
-	{
-		tabNumber = GUILayout.Toolbar(tabNumber, new string[]{"Generate", "Standard"});
+        public override void OnInspectorGUI()
+        {
+            _tabNumber = GUILayout.Toolbar(_tabNumber, new string[]{"Generate", "Standard"});
 
-		switch(tabNumber)
-		{
-			case 0: // "Generate"
-				#region Generate
-				LevelLoader myScript = (LevelLoader)target;
-                myScript = (LevelLoader)target;
+            switch(_tabNumber)
+            {
+                case 0: // "Generate"
+                    #region Generate
+                    var myScript = (LevelLoader)target;
 
-                /*
+                    /*
                 EditorGUILayout.BeginHorizontal();
                     myScript.level = EditorGUILayout.ObjectField("Level Image", myScript.level, typeof(Texture2D)) as Texture2D;
                     myScript.sourceRect = EditorGUILayout.RectField("Source Rect", myScript.sourceRect);
@@ -42,22 +42,23 @@ public class LevelLoaderEditor : Editor
                     Objects[i] = pto;
                 }
                 */
-                EditorGUILayout.Space();
-                if (GUILayout.Button("Generate Map")){
-                    myScript.LoadLevel();
-                }
+                    EditorGUILayout.Space();
+                    if (GUILayout.Button("Generate Map")){
+                        myScript.LoadLevel();
+                    }
 
-                break;
-            #endregion
-
-            case 1: // "Standard"
-				#region Standard Settings
-				DrawDefaultInspector();
-				break;
+                    break;
                 #endregion
+
+                case 1: // "Standard"
+                    #region Standard Settings
+                    DrawDefaultInspector();
+                    break;
+                #endregion
+            }
+
+
         }
 
-
     }
-
 }

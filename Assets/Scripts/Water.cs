@@ -3,27 +3,29 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Water : MonoBehaviour {
-    [Range(0, 5)]
+    
+	[Range(0, 5)]
     public float heightPerMinute;
+    
     [Range(0,15)]
     public float waveSpeed;
+    
     [Range(0, 0.2f)]
     public float waveHeight;
-    private float height;
-    private float waveStep;
-	// Use this for initialization
-	void Start () {
-        height = transform.position.y;
-        waveStep = 0;
+    private float _height;
+    private float _waveStep;
+
+    private void Start () {
+        _height = transform.position.y;
+        _waveStep = 0;
 	}
-	
-	// Update is called once per frame
-	void Update () {
-        height += Time.deltaTime / 60f * heightPerMinute;
-        waveStep += Time.deltaTime * waveSpeed;
+    
+	private void Update () {
+        _height += Time.deltaTime / 60f * heightPerMinute;
+        _waveStep += Time.deltaTime * waveSpeed;
         
 	}
-    void FixedUpdate(){
-        transform.position = new Vector3(0, height + (Mathf.Sin(waveStep)*waveHeight), 0);
+    private void FixedUpdate(){
+        transform.position = new Vector3(0, _height + (Mathf.Sin(_waveStep)*waveHeight), 0);
     }
 }

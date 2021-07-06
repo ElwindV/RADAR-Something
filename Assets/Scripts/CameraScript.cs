@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class CameraScript : MonoBehaviour {
 
-    private GameObject player;
-    private Vector3 initialOffset;
+    private GameObject _player;
+    private Vector3 _initialOffset;
 
-    private Vector3 currentPosition;
-    private Vector3 targetPosition;
+    private Vector3 _currentPosition;
+    private Vector3 _targetPosition;
 
-    private Vector3 offSet;
+    private Vector3 _offSet;
 
     [Range(1f, 10f)]
     public float moveSpeed = 10f;
@@ -19,41 +19,41 @@ public class CameraScript : MonoBehaviour {
 
     public void Start ()
     {
-        player = GameObject.Find("Player");
+        _player = GameObject.Find("Player");
         camera=GetComponent<Camera>();
 
-        offSet.y =  transform.position.y;
-        offSet.z -= 4f;
-        transform.position = player.transform.position + offSet;
+        _offSet.y =  transform.position.y;
+        _offSet.z -= 4f;
+        transform.position = _player.transform.position + _offSet;
 	}
 	
 	public void FixedUpdate ()
     {
-        targetPosition = player.transform.position + offSet;
-        targetPosition = ClampTargetPosition(targetPosition);
-        currentPosition = transform.position;
+        _targetPosition = _player.transform.position + _offSet;
+        _targetPosition = ClampTargetPosition(_targetPosition);
+        _currentPosition = transform.position;
         
-        if(currentPosition != targetPosition) {
-            transform.position = Vector3.Lerp(currentPosition, targetPosition, Time.fixedDeltaTime * moveSpeed);
+        if(_currentPosition != _targetPosition) {
+            transform.position = Vector3.Lerp(_currentPosition, _targetPosition, Time.fixedDeltaTime * moveSpeed);
         }
 	}
 
-    public Vector3 ClampTargetPosition(Vector3 targetPosition)
+    private Vector3 ClampTargetPosition(Vector3 targetPosition)
     {
-        float xdist = camera.ViewportToWorldPoint(new Vector3(0.5f, 0f, 8f)).x - camera.ViewportToWorldPoint(new Vector3(0, 0, 8)).x;
-        float ydist = camera.ViewportToWorldPoint(new Vector3(0f, 0.5f, 8f)).z - camera.ViewportToWorldPoint(new Vector3(0, 0, 8)).z;
+        var xDistance = camera.ViewportToWorldPoint(new Vector3(0.5f, 0f, 8f)).x - camera.ViewportToWorldPoint(new Vector3(0, 0, 8)).x;
+        var yDistance = camera.ViewportToWorldPoint(new Vector3(0f, 0.5f, 8f)).z - camera.ViewportToWorldPoint(new Vector3(0, 0, 8)).z;
 
-        if (targetPosition.x < -0.5f + xdist) {
-            targetPosition.x = -0.5f + xdist;
+        if (targetPosition.x < -0.5f + xDistance) {
+            targetPosition.x = -0.5f + xDistance;
         }
-        if (targetPosition.x > 31f - xdist) {
-            targetPosition.x = 31f - xdist;
+        if (targetPosition.x > 31f - xDistance) {
+            targetPosition.x = 31f - xDistance;
         }
-        if (targetPosition.z < -3.4f + ydist) {
-            targetPosition.z = -3.4f + ydist;
+        if (targetPosition.z < -3.4f + yDistance) {
+            targetPosition.z = -3.4f + yDistance;
         }
-        if (targetPosition.z > 28 - ydist) {
-            targetPosition.z = 28 - ydist;
+        if (targetPosition.z > 28 - yDistance) {
+            targetPosition.z = 28 - yDistance;
         }
         return targetPosition;
     }

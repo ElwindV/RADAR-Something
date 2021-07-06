@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Enemies;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour {
@@ -27,7 +28,7 @@ public class Bullet : MonoBehaviour {
         transform.position = position;
         this.direction = direction;
 
-        Vector2 direction2d = new Vector2(direction.x, direction.z);
+        var direction2d = new Vector2(direction.x, direction.z);
 
         if (direction2d.x > 0) {
             //targetRotation = Vector2.Angle(Vector2.down, input);
@@ -40,7 +41,7 @@ public class Bullet : MonoBehaviour {
 
     public virtual void OnCollisionEnter(Collision col)
     {
-        EnemyBase enemy = col.transform.GetComponent<EnemyBase>();
+        var enemy = col.transform.GetComponent<EnemyBase>();
         
         if (enemy != null) {
             enemy.TakeDamage(damage);

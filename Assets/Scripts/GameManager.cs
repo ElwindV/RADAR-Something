@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour {
 
     [Header("Time")]
     [Range(0, 100)] public float beginTime = 120f;
-    private float time;
+    private float _time;
     public Text timeText;
     [Range(0, 30)] public float extraTimePerWave;
 
@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour {
     public AnimationCurve deathScreenTextRate;
     public Image deathScreen;
     public Text gameOver, totalScore;
-    private float deathTime = 0f;
+    private float _deathTime = 0f;
     [System.NonSerialized] public bool isDead = false;
     [Range(0, 20)] public float extraTimePerEnemy = 10f;
 
@@ -34,26 +34,26 @@ public class GameManager : MonoBehaviour {
     public Text waveText;
     public Text remaining;
     public GameObject[] enemies;
-    private GameObject[] spawnPoints;
-    private int wave = 0;
+    private GameObject[] _spawnPoints;
+    private int _wave = 0;
     public int[] enemyPerWave;
-    private float waveTime = 0f;
+    private float _waveTime = 0f;
 
-    private Player player;
-    private bool hasWon = false;
+    private Player _player;
+    private bool _hasWon = false;
 
     public void Awake()
     {
         AnalyticsEvent.GameStart();
-        AnalyticsEvent.LevelStart($"wave_{wave}");
-        time = beginTime;
-        spawnPoints = GameObject.FindGameObjectsWithTag("EnemySpawn");
-        player = GameObject.FindGameObjectWithTag("Player")?.GetComponent<Player>();
+        AnalyticsEvent.LevelStart($"wave_{_wave}");
+        _time = beginTime;
+        _spawnPoints = GameObject.FindGameObjectsWithTag("EnemySpawn");
+        _player = GameObject.FindGameObjectWithTag("Player")?.GetComponent<Player>();
     }
 
     public void Update()
     {
-        time -= Time.deltaTime;
+        _time -= Time.deltaTime;
         
         HandleText();
 
@@ -66,61 +66,61 @@ public class GameManager : MonoBehaviour {
         if (timeText == null || scoreText == null || waveText || waveText) {
             return;
         }
-        timeText.text = "Time: " + (int)time;
+        timeText.text = "Time: " + (int)_time;
         scoreText.text = "Score: " + score + "   " + multiplier + "X";
-        waveText.text = "Wave: " + wave + "/" + enemyPerWave.Length;
+        waveText.text = "Wave: " + _wave + "/" + enemyPerWave.Length;
         waveText.text = "Remaining: " + enemyCount;// + "/" + GameObject.FindGameObjectsWithTag("Enemy").Length;
     }
 
     private void CheckForFailure() 
     {
-        if (! (time < 0f || isDead || hasWon)) {
+        if (! (_time < 0f || isDead || _hasWon)) {
             return;
         }
 
-        deathTime += Time.unscaledDeltaTime;
-        Time.timeScale = slowDownRate.Evaluate(deathTime);
+        _deathTime += Time.unscaledDeltaTime;
+        Time.timeScale = slowDownRate.Evaluate(_deathTime);
         var c = deathScreen.color;
-        c.a = deathScreenRate.Evaluate(deathTime);
+        c.a = deathScreenRate.Evaluate(_deathTime);
         deathScreen.color = c;
 
         var textColor = gameOver.color;
-        textColor.a = deathScreenTextRate.Evaluate(deathTime);
+        textColor.a = deathScreenTextRate.Evaluate(_deathTime);
         gameOver.color = textColor;
         totalScore.color = textColor;
 
         totalScore.text = "Total score: " + score;
-        if (!hasWon) {
+        if (!_hasWon) {
             return;
         }
         
         gameOver.text = "You've won!";
-        totalScore.text += (" + " + Mathf.FloorToInt(time) + " seconds = " + score + Mathf.FloorToInt(time));
+        totalScore.text += (" + " + Mathf.FloorToInt(_time) + " seconds = " + score + Mathf.FloorToInt(_time));
     }
 
     private void CheckForWin() 
     {
-        if (!(enemyCount == 0 && !hasWon && !isDead)) {
+        if (!(enemyCount == 0 && !_hasWon && !isDead)) {
             return;
         }
 
-        AnalyticsEvent.LevelComplete($"wave_{wave}");
-        AnalyticsEvent.Custom($"wave_{wave}_completed", new Dictionary<string, object> {
-            {"wave", wave},
+        AnalyticsEvent.LevelComplete($"wave_{_wave}");
+        AnalyticsEvent.Custom($"wave_{_wave}_completed", new Dictionary<string, object> {
+            {"wave", _wave},
             {"score", score},
-            {"time_elapsed", Time.timeSinceLevelLoad - waveTime}
+            {"time_elapsed", Time.timeSinceLevelLoad - _waveTime}
         });
 
-        waveTime = Time.timeSinceLevelLoad;
-        wave++;
+        _waveTime = Time.timeSinceLevelLoad;
+        _wave++;
 
-        if (wave < enemyPerWave?.Length) {
-            player.RestoreHealth(); time += extraTimePerWave;
-            StartCoroutine(spawnEnemies(enemyPerWave[wave - 1]));
-            AnalyticsEvent.LevelStart($"wave_{wave}");
+        if (_wave < enemyPerWave?.Length) {
+            _player.RestoreHealth(); _time += extraTimePerWave;
+            StartCoroutine(spawnEnemies(enemyPerWave[_wave - 1]));
+            AnalyticsEvent.LevelStart($"wave_{_wave}");
         }
         else {
-            hasWon = true;
+            _hasWon = true;
         }
         
     }
@@ -134,20 +134,20 @@ public class GameManager : MonoBehaviour {
     {
         score += value * multiplier;
         multiplier++;
-        time += extraTimePerEnemy;
+        _time += extraTimePerEnemy;
         enemyCount--;
     }
 
     public void endGame()
     {
         AnalyticsEvent.GameOver();
-        AnalyticsEvent.LevelFail($"wave_{wave}");
+        AnalyticsEvent.LevelFail($"wave_{_wave}");
         isDead = true;
     }
 
     public void exitGame() 
     {
-        AnalyticsEvent.LevelQuit($"wave_{wave}");
+        AnalyticsEvent.LevelQuit($"wave_{_wave}");
         Application.Quit();
     }
 
@@ -157,7 +157,7 @@ public class GameManager : MonoBehaviour {
         for (int i = 0; i < spawnThisWave; i++)
         {
             GameObject toInstantiate = enemies[Mathf.RoundToInt(Random.Range(0, enemies.Length-1))];
-            Transform transform = spawnPoints[Mathf.RoundToInt(Random.Range(0, spawnPoints.Length-1))].transform;
+            Transform transform = _spawnPoints[Mathf.RoundToInt(Random.Range(0, _spawnPoints.Length-1))].transform;
             GameObject instantiated = Instantiate(toInstantiate, transform) as GameObject;
             instantiated.transform.parent = transform;
             yield return new WaitForSeconds(2f);

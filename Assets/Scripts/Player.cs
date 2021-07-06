@@ -13,44 +13,44 @@ public class Player : MonoBehaviour
     [Range(0,10)] public float shootDelay;
     public float maxHitPoints;
     public float hitPoints;
-    private float shownHitPoints;
+    private float _shownHitPoints;
     public Image healthBar;
     public GameObject[] bulletPrefabs;
     public AudioSource audioSource;
     public AudioClip[] sounds;
-    private Quaternion currentRotation;
-    private Quaternion targetRotation;
-    private Rigidbody myRigidbody;
+    private Quaternion _currentRotation;
+    private Quaternion _targetRotation;
+    private Rigidbody _myRigidbody;
 
-    private bool hasGun = false;
-    private GameObject gun;
-    private Vector3 gunPosition;
-    private float gunPickupRange = 1.5f;
-    private GameManager gameManager;
-    private float lastFireTime = float.NegativeInfinity;
+    private bool _hasGun = false;
+    private GameObject _gun;
+    private Vector3 _gunPosition;
+    private const float GunPickupRange = 1.5f;
+    private GameManager _gameManager;
+    private float _lastFireTime = float.NegativeInfinity;
 
     public void Start()
     {
-        shownHitPoints = hitPoints = maxHitPoints;
-        myRigidbody = GetComponent<Rigidbody>();
-        gun = GameObject.Find("Gun");
-        gunPosition = gun.transform.position;
+        _shownHitPoints = hitPoints = maxHitPoints;
+        _myRigidbody = GetComponent<Rigidbody>();
+        _gun = GameObject.Find("Gun");
+        _gunPosition = _gun.transform.position;
 
-        gameManager = GameObject.FindWithTag("GameManager").GetComponent<GameManager>();
+        _gameManager = GameObject.FindWithTag("GameManager").GetComponent<GameManager>();
     }
 
     public void Update ()
     {
-        shownHitPoints = Mathf.Lerp(shownHitPoints, hitPoints, 10f * Time.deltaTime);
-        if(healthBar != null) healthBar.fillAmount = Mathf.Clamp(shownHitPoints, 0, maxHitPoints) / maxHitPoints;
+        _shownHitPoints = Mathf.Lerp(_shownHitPoints, hitPoints, 10f * Time.deltaTime);
+        if(healthBar != null) healthBar.fillAmount = Mathf.Clamp(_shownHitPoints, 0, maxHitPoints) / maxHitPoints;
     }
 
     public void FixedUpdate()
     {
         if (Input.GetKey("escape"))
-            gameManager.exitGame();
+            _gameManager.exitGame();
 
-        myRigidbody.velocity = new Vector3(Input.GetAxisRaw("LeftJoyX"), 0, Input.GetAxisRaw("LeftJoyY")) * speed * 50f * Time.fixedDeltaTime;
+        _myRigidbody.velocity = new Vector3(Input.GetAxisRaw("LeftJoyX"), 0, Input.GetAxisRaw("LeftJoyY")) * speed * 50f * Time.fixedDeltaTime;
 
         if (Input.GetButton("Fire1"))
             ShootGun();
@@ -68,19 +68,19 @@ public class Player : MonoBehaviour
         if (Vector2.Distance(Vector2.zero, input) <= .1f)
             return;
 
-        currentRotation = transform.rotation;
-        targetRotation = (input.x > 0)
+        _currentRotation = transform.rotation;
+        _targetRotation = (input.x > 0)
             ? Quaternion.Euler(0, Vector2.Angle(Vector2.down, input), 0)
             : Quaternion.Euler(0, 180 + Vector2.Angle(Vector2.up, input), 0);
 
-        if (currentRotation != targetRotation) {
-            transform.rotation = Quaternion.Lerp(currentRotation, targetRotation, Time.deltaTime * turnSpeed);
+        if (_currentRotation != _targetRotation) {
+            transform.rotation = Quaternion.Lerp(_currentRotation, _targetRotation, Time.deltaTime * turnSpeed);
         } 
     }
 
     private void ShootGun() 
     {
-        if (! hasGun) {
+        if (! _hasGun) {
             return;
         }
 
@@ -90,7 +90,7 @@ public class Player : MonoBehaviour
         var bullet = Instantiate(bulletPrefabs[0]);
         audioSource.PlayOneShot(sounds[0]);
         var bulletScript = bullet.GetComponent<Bullet>();
-        lastFireTime = Time.time;
+        _lastFireTime = Time.time;
         bulletScript.Init(bulletSpawnPoint.position, bulletSpawnPoint.forward);
         Destroy(bullet, 5f);
     }
@@ -103,21 +103,21 @@ public class Player : MonoBehaviour
         audioSource.PlayOneShot(sounds[1]);
         var bullet = Instantiate(bulletPrefabs[1]);
         var bulletScript = bullet.GetComponent<Bullet>();
-        lastFireTime = Time.time;
+        _lastFireTime = Time.time;
         bulletScript.Init(bulletSpawnPoint.position, bulletSpawnPoint.forward);
         Destroy(bullet, 5f);
     }
 
     private bool CanFire() 
     {
-        return (lastFireTime + shootDelay) < Time.time;
+        return (_lastFireTime + shootDelay) < Time.time;
     }
 
     public void TakeDamage(float damage)
     {
         hitPoints -= damage;
-        if (hitPoints <= 0 && gameManager != null) {
-            gameManager.endGame();
+        if (hitPoints <= 0 && _gameManager != null) {
+            _gameManager.endGame();
         }
     }
 
@@ -128,15 +128,15 @@ public class Player : MonoBehaviour
 
     private void HandlePickup() 
     {
-        if (hasGun)
+        if (_hasGun)
             return;
 
-        if (Vector3.Distance(transform.position, gunPosition) >= gunPickupRange) {
+        if (Vector3.Distance(transform.position, _gunPosition) >= GunPickupRange) {
             return;
         }
 
-        hasGun = true;
-        Destroy(gun);
+        _hasGun = true;
+        Destroy(_gun);
         audioSource.PlayOneShot(sounds[2]);
     }
 }
