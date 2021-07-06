@@ -32,7 +32,7 @@ public class GameManager : MonoBehaviour {
 
     [Header("Spawning of Enemies")]
     public Text waveText;
-    public Text Remaining;
+    public Text remaining;
     public GameObject[] enemies;
     private GameObject[] spawnPoints;
     private int wave = 0;
@@ -80,11 +80,11 @@ public class GameManager : MonoBehaviour {
 
         deathTime += Time.unscaledDeltaTime;
         Time.timeScale = slowDownRate.Evaluate(deathTime);
-        Color c = deathScreen.color;
+        var c = deathScreen.color;
         c.a = deathScreenRate.Evaluate(deathTime);
         deathScreen.color = c;
 
-        Color textColor = gameOver.color;
+        var textColor = gameOver.color;
         textColor.a = deathScreenTextRate.Evaluate(deathTime);
         gameOver.color = textColor;
         totalScore.color = textColor;
