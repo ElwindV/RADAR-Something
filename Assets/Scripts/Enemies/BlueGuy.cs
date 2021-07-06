@@ -11,13 +11,13 @@ namespace Enemies
             number = player.transform.position - transform.position;
 
             if (mode != Mode.Moving) {
-                rb.isKinematic = true;
+                rigid.isKinematic = true;
                 return;
             }
 
-            rb.isKinematic = false;
+            rigid.isKinematic = false;
             var toTarget = player.transform.position - transform.position;
-            var speed = 3f;
+            const float speed = 3f;
 
             toTarget = toTarget.normalized;
 

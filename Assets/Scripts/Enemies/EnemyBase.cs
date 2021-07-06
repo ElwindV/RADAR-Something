@@ -8,47 +8,48 @@ namespace Enemies
         public float startHP;
         public float hitPoints;
 
-        [System.NonSerialized] public GameObject player;
-        protected Renderer rend;
+        protected GameObject player;
+
+        private Renderer _renderer;
 
         public GameObject[] explosions;
-
-        private Color col1, col2;
-
-        private float shadeTime = 0f;
-        private bool trans = true;
+        
+        private float _shadeTime = 0f;
+        private bool _isTransparent = true;
 
         protected float x, z;
 
         private GameManager _gameManager;
 
         public AudioClip[] sounds;
-        protected AudioSource audioSource;
+        private AudioSource _audioSource;
 
-        [System.NonSerialized] public Rigidbody rb;
+        protected Rigidbody rigid;
 
         public virtual void Start() {
 
             hitPoints = startHP;
             mode = Mode.Moving;
-            rend = GetComponent<Renderer>();
-            rb = GetComponent<Rigidbody>();
-            audioSource = GetComponent<AudioSource>();
+            _renderer = GetComponent<Renderer>();
+            rigid = GetComponent<Rigidbody>();
+            _audioSource = GetComponent<AudioSource>();
             player = GameObject.FindGameObjectWithTag("Player");
 
-            x = transform.position.x;
-            z = transform.position.z;
+            var position = transform.position;
+            x = position.x;
+            z = position.z;
 
             _gameManager = GameObject.FindWithTag("GameManager").GetComponent<GameManager>();
         }
 
         public void Update() {
-            shadeTime += ((!trans) ? 1f : -1f) * Time.deltaTime;
-            shadeTime = Mathf.Clamp(shadeTime, 0, 255);
-            rend.material.color = new Vector4(rend.material.color.r, rend.material.color.b, rend.material.color.g, shadeTime);
+            _shadeTime += ((!_isTransparent) ? 1f : -1f) * Time.deltaTime;
+            _shadeTime = Mathf.Clamp(_shadeTime, 0, 255);
+            var material = _renderer.material;
+            material.color = new Vector4(material.color.r, material.color.b, material.color.g, _shadeTime);
 
-            Vector3 relativePos = player.transform.position - transform.position;
-            Quaternion rotation = Quaternion.LookRotation(-relativePos);
+            var relativePos = player.transform.position - transform.position;
+            var rotation = Quaternion.LookRotation(-relativePos);
             transform.rotation = rotation;
         }
 
@@ -94,20 +95,20 @@ namespace Enemies
         public void TakeDamage(float damage)
         {
             hitPoints -= damage;
-            audioSource.PlayOneShot(sounds[0]);
+            _audioSource.PlayOneShot(sounds[0]);
             if (hitPoints <= 0)
             {
                 if (explosions.Length > 0)
                 {
                     Instantiate(explosions[Random.Range(0, explosions.Length)]).transform.position = transform.position;
                 }
-                audioSource.PlayOneShot(sounds[1]);
+                _audioSource.PlayOneShot(sounds[1]);
                 _gameManager.addScore(1);
                 Destroy(transform.gameObject);
             }
             else
             {
-                audioSource.PlayOneShot(sounds[0]);
+                _audioSource.PlayOneShot(sounds[0]);
             }
         }
 
@@ -126,12 +127,12 @@ namespace Enemies
 
         public void fadeOut()
         {
-            trans = true;
+            _isTransparent = true;
         }
 
         public void fadeIn()
         {
-            trans = false;
+            _isTransparent = false;
         }
 
     }

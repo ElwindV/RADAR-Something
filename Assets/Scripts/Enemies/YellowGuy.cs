@@ -9,7 +9,6 @@ namespace Enemies
 
         public int timer;
         public bool change;
-        public float distance;
 
         public override void Start()
         {
@@ -32,11 +31,11 @@ namespace Enemies
         public void FixedUpdate () {
 
             if (mode != Mode.Moving) {
-                rb.isKinematic = true;
+                rigid.isKinematic = true;
                 return;
             }
 
-            rb.isKinematic = false;
+            rigid.isKinematic = false;
             timer -= 1;
 
             var toTarget = player.transform.position - transform.position;
