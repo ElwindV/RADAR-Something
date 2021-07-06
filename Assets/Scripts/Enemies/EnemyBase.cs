@@ -26,8 +26,8 @@ namespace Enemies
 
         protected Rigidbody rigid;
 
-        public virtual void Start() {
-
+        public virtual void Start() 
+        {
             hitPoints = startHP;
             mode = Mode.Moving;
             _renderer = GetComponent<Renderer>();
@@ -42,7 +42,8 @@ namespace Enemies
             _gameManager = GameObject.FindWithTag("GameManager").GetComponent<GameManager>();
         }
 
-        public void Update() {
+        public void Update() 
+        {
             _shadeTime += ((!_isTransparent) ? 1f : -1f) * Time.deltaTime;
             _shadeTime = Mathf.Clamp(_shadeTime, 0, 255);
             var material = _renderer.material;
@@ -119,12 +120,12 @@ namespace Enemies
             transform.position = new Vector3(x, 1, z);
         }
 
-        public void FadeOut()
+        private void FadeOut()
         {
             _isTransparent = true;
         }
 
-        public void FadeIn()
+        private void FadeIn()
         {
             _isTransparent = false;
         }
