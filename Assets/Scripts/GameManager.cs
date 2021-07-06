@@ -34,7 +34,7 @@ public class GameManager : MonoBehaviour {
 
     [Header("Spawning of Enemies")]
     public Text waveText;
-    public Text remaining;
+    public Text remainingText;
     public GameObject[] enemies;
     private GameObject[] _spawnPoints;
     private int _wave;
@@ -65,13 +65,13 @@ public class GameManager : MonoBehaviour {
 
     private void HandleText() 
     {
-        if (timeText == null || scoreText == null || waveText || waveText) {
-            return;
-        }
-        timeText.text = "Time: " + (int)_time;
-        scoreText.text = "Score: " + score + "   " + multiplier + "X";
-        waveText.text = "Wave: " + _wave + "/" + enemyPerWave.Length;
-        waveText.text = "Remaining: " + _enemyCount;// + "/" + GameObject.FindGameObjectsWithTag("Enemy").Length;
+        if (timeText != null) timeText.text = "Time: " + (int)_time;
+        
+        if (scoreText != null) scoreText.text = "Score: " + score + "   " + multiplier + "X";
+
+        if (waveText != null) waveText.text = "Wave: " + _wave + "/" + enemyPerWave.Length;
+        
+        if (remainingText != null) remainingText.text = "Remaining: " + _enemyCount;
     }
 
     private void CheckForFailure() 
