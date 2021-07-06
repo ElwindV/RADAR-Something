@@ -10,7 +10,7 @@ namespace Enemies
         {
             number = player.transform.position - transform.position;
 
-            if (mode != ModeMoving) {
+            if (mode != Mode.Moving) {
                 rb.isKinematic = true;
                 return;
             }

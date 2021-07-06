@@ -23,7 +23,7 @@ namespace Enemies
 	
         public void FixedUpdate () 
         {
-            if (mode != ModeMoving) {
+            if (mode != Mode.Moving) {
                 rb.isKinematic = true;
 
                 return;

@@ -1,4 +1,8 @@
-$HEADER$namespace $NAMESPACE$
+namespace Enemies
 {
-  public enum $ENUM$ {$END$}
+    public enum Mode : int
+    {
+        Stunned = 0,
+        Moving = 1,
+    }
 }

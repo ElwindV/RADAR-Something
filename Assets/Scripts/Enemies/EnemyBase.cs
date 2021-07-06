@@ -3,11 +3,8 @@ using UnityEngine;
 
 namespace Enemies
 {
-    public class EnemyBase : MonoBehaviour {
-        protected const int ModeMoving = 1;
-        private const int ModeStunned = 0;
-
-        public int mode;
+    public abstract class EnemyBase : MonoBehaviour {
+        public Mode mode;
         public float startHP;
         public float hitPoints;
 
@@ -33,7 +30,7 @@ namespace Enemies
         public virtual void Start() {
 
             hitPoints = startHP;
-            mode = ModeMoving;
+            mode = Mode.Moving;
             rend = GetComponent<Renderer>();
             rb = GetComponent<Rigidbody>();
             audioSource = GetComponent<AudioSource>();
@@ -64,15 +61,14 @@ namespace Enemies
         }
         public void OnCollisionStay(Collision col)
         {
-            if (col.transform.CompareTag("Player") && mode != ModeStunned)
-            {
-                fadeIn();
+            if (!col.transform.CompareTag("Player") || mode == Mode.Stunned) return;
+            
+            fadeIn();
 
-                mode = ModeStunned;
-                StartCoroutine(Invis(true));
-                col.transform.GetComponent<Player>().TakeDamage(2);
-                _gameManager.resetMultiplier();
-            }
+            mode = Mode.Stunned;
+            StartCoroutine(Invis(true));
+            col.transform.GetComponent<Player>().TakeDamage(2);
+            _gameManager.resetMultiplier();
         }
 
         public void OnTriggerExit(Collider other)
@@ -92,7 +88,7 @@ namespace Enemies
         private IEnumerator Invis(bool stun)
         {
             yield return new WaitForSeconds(2);
-            mode = ModeMoving;
+            mode = Mode.Moving;
             fadeOut();
         }
         public void TakeDamage(float damage)
@@ -117,8 +113,8 @@ namespace Enemies
 
         protected void ClampPosition() 
         {
-            var x = Mathf.Clamp(transform.position.x, -transform.parent.position.x, 32 - transform.parent.position.x);
-            var z = Mathf.Clamp(transform.position.z, -transform.parent.position.z, 32 - transform.parent.position.z);
+            var x = Mathf.Clamp(transform.position.x, - transform.parent.position.x, 32 - transform.parent.position.x);
+            var z = Mathf.Clamp(transform.position.z, - transform.parent.position.z, 32 - transform.parent.position.z);
             transform.position = new Vector3(x, 1, z);
 
             //Vector3 worldPosition = transform.TransformVector(transform.position);
