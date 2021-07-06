@@ -118,7 +118,7 @@ public class GameManager : MonoBehaviour {
 
         if (_wave < enemyPerWave?.Length) {
             _player.RestoreHealth(); _time += extraTimePerWave;
-            StartCoroutine(spawnEnemies(enemyPerWave[_wave - 1]));
+            StartCoroutine(SpawnEnemies(enemyPerWave[_wave - 1]));
             AnalyticsEvent.LevelStart($"wave_{_wave}");
         }
         else {
@@ -127,12 +127,12 @@ public class GameManager : MonoBehaviour {
         
     }
 
-    public void resetMultiplier()
+    public void ResetMultiplier()
     {
         multiplier = 1;
     }
 
-    public void addScore(int value)
+    public void AddScore(int value)
     {
         score += value * multiplier;
         multiplier++;
@@ -140,28 +140,29 @@ public class GameManager : MonoBehaviour {
         _enemyCount--;
     }
 
-    public void endGame()
+    public void EndGame()
     {
         AnalyticsEvent.GameOver();
         AnalyticsEvent.LevelFail($"wave_{_wave}");
         _isDead = true;
     }
 
-    public void exitGame() 
+    public void ExitGame() 
     {
         AnalyticsEvent.LevelQuit($"wave_{_wave}");
         Application.Quit();
     }
 
-    private IEnumerator spawnEnemies(int spawnThisWave)
+    private IEnumerator SpawnEnemies(int spawnThisWave)
     {
         _enemyCount += spawnThisWave;
-        for (int i = 0; i < spawnThisWave; i++)
+        for (var i = 0; i < spawnThisWave; i++)
         {
-            GameObject toInstantiate = enemies[Mathf.RoundToInt(Random.Range(0, enemies.Length-1))];
-            Transform transform = _spawnPoints[Mathf.RoundToInt(Random.Range(0, _spawnPoints.Length-1))].transform;
-            GameObject instantiated = Instantiate(toInstantiate, transform);
-            instantiated.transform.parent = transform;
+            var toInstantiate = enemies[Mathf.RoundToInt(Random.Range(0, enemies.Length-1))];
+            var spawnPointTransform = _spawnPoints[Mathf.RoundToInt(Random.Range(0, _spawnPoints.Length-1))].transform;
+            var instantiated = Instantiate(toInstantiate, spawnPointTransform);
+            instantiated.transform.parent = spawnPointTransform;
+            
             yield return new WaitForSeconds(2f);
         }
         yield return null;

@@ -57,19 +57,19 @@ namespace Enemies
         {
             if (other.CompareTag("beam"))
             {
-                fadeIn();
+                FadeIn();
             }
         }
         public void OnCollisionStay(Collision col)
         {
             if (!col.transform.CompareTag("Player") || mode == Mode.Stunned) return;
             
-            fadeIn();
+            FadeIn();
 
             mode = Mode.Stunned;
             StartCoroutine(Invis(true));
             col.transform.GetComponent<Player>().TakeDamage(2);
-            _gameManager.resetMultiplier();
+            _gameManager.ResetMultiplier();
         }
 
         public void OnTriggerExit(Collider other)
@@ -84,13 +84,13 @@ namespace Enemies
         {
             yield return new WaitForSeconds(2);
 
-            fadeOut();
+            FadeOut();
         }
         private IEnumerator Invis(bool stun)
         {
             yield return new WaitForSeconds(2);
             mode = Mode.Moving;
-            fadeOut();
+            FadeOut();
         }
         public void TakeDamage(float damage)
         {
@@ -103,7 +103,7 @@ namespace Enemies
                     Instantiate(explosions[Random.Range(0, explosions.Length)]).transform.position = transform.position;
                 }
                 _audioSource.PlayOneShot(sounds[1]);
-                _gameManager.addScore(1);
+                _gameManager.AddScore(1);
                 Destroy(transform.gameObject);
             }
             else
@@ -117,20 +117,14 @@ namespace Enemies
             var x = Mathf.Clamp(transform.position.x, - transform.parent.position.x, 32 - transform.parent.position.x);
             var z = Mathf.Clamp(transform.position.z, - transform.parent.position.z, 32 - transform.parent.position.z);
             transform.position = new Vector3(x, 1, z);
-
-            //Vector3 worldPosition = transform.TransformVector(transform.position);
-            //worldPosition.x = Mathf.Clamp(worldPosition.x, 0, 32);
-            //worldPosition.z = Mathf.Clamp(worldPosition.z, 0, 32);
-            //worldPosition.y = 1.5f;
-            //transform.position = transform.InverseTransformPoint(worldPosition);
         }
 
-        public void fadeOut()
+        public void FadeOut()
         {
             _isTransparent = true;
         }
 
-        public void fadeIn()
+        public void FadeIn()
         {
             _isTransparent = false;
         }

@@ -18,17 +18,17 @@ namespace Tests
 
             Assert.AreEqual(0, gameManager.score);
 
-            gameManager.addScore(1);
+            gameManager.AddScore(1);
             Assert.AreEqual(1, gameManager.score);
 
-            gameManager.addScore(1);
+            gameManager.AddScore(1);
             Assert.AreEqual(3, gameManager.score);
 
-            gameManager.addScore(1);
+            gameManager.AddScore(1);
             Assert.AreEqual(6, gameManager.score);
 
-            gameManager.resetMultiplier();
-            gameManager.addScore(1);
+            gameManager.ResetMultiplier();
+            gameManager.AddScore(1);
             Assert.AreEqual(7, gameManager.score);
         }
 
@@ -42,19 +42,19 @@ namespace Tests
 
             Assert.AreEqual(1, gameManager.multiplier);
 
-            gameManager.addScore(1);
+            gameManager.AddScore(1);
             Assert.AreEqual(2, gameManager.multiplier);
 
-            gameManager.addScore(1);
+            gameManager.AddScore(1);
             Assert.AreEqual(3, gameManager.multiplier);
 
-            gameManager.addScore(1);
+            gameManager.AddScore(1);
             Assert.AreEqual(4, gameManager.multiplier);
 
-            gameManager.resetMultiplier();
+            gameManager.ResetMultiplier();
             Assert.AreEqual(1, gameManager.multiplier);
 
-            gameManager.addScore(1);
+            gameManager.AddScore(1);
             Assert.AreEqual(2, gameManager.multiplier);
         }
     }

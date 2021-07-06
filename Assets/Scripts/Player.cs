@@ -46,7 +46,7 @@ public class Player : MonoBehaviour
     public void FixedUpdate()
     {
         if (Input.GetKey("escape"))
-            _gameManager.exitGame();
+            _gameManager.ExitGame();
 
         _myRigidbody.velocity = new Vector3(Input.GetAxisRaw("LeftJoyX"), 0, Input.GetAxisRaw("LeftJoyY")) * speed * 50f * Time.fixedDeltaTime;
 
@@ -115,7 +115,7 @@ public class Player : MonoBehaviour
     {
         hitPoints -= damage;
         if (hitPoints <= 0 && _gameManager != null) {
-            _gameManager.endGame();
+            _gameManager.EndGame();
         }
     }
 

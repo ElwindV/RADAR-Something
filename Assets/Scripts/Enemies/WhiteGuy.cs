@@ -8,7 +8,7 @@ namespace Enemies
         private float _speed = 1.2f;
 
         public int timer;
-        private float y;
+        private float _y;
 
         public override void Start()
         {
@@ -43,9 +43,9 @@ namespace Enemies
                 if (timer <= 0) {
                     
                     timer = 60 * 20;
-                    y -= 90;
+                    _y -= 90;
 
-                    transform.eulerAngles = new Vector3(transform.eulerAngles.x, y, transform.eulerAngles.z);
+                    transform.eulerAngles = new Vector3(transform.eulerAngles.x, _y, transform.eulerAngles.z);
 
                     direction = new Vector3(x, 0, z);
                 }
