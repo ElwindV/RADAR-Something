@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Enemies;
+﻿using Enemies;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour {
@@ -13,12 +11,12 @@ public class Bullet : MonoBehaviour {
     public float damage = 2;
     public GameObject[] explosions;
 
-	void Start () 
+    private void Start () 
     {
         myRigidBody = GetComponent<Rigidbody>();
 	}
-	
-	void FixedUpdate () 
+
+    public void FixedUpdate () 
     {
         myRigidBody.velocity = direction * speed;
 	}

@@ -1,8 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.Analytics;
+using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour {
 
@@ -23,24 +25,24 @@ public class GameManager : MonoBehaviour {
     public AnimationCurve deathScreenTextRate;
     public Image deathScreen;
     public Text gameOver, totalScore;
-    private float _deathTime = 0f;
-    [System.NonSerialized] public bool isDead = false;
+    private float _deathTime;
+    private bool _isDead;
     [Range(0, 20)] public float extraTimePerEnemy = 10f;
 
-    [System.NonSerialized] public int enemyCount = 0;
-    [System.NonSerialized] public int multiplier = 1;
+    private int _enemyCount;
+    [NonSerialized] public int multiplier = 1;
 
     [Header("Spawning of Enemies")]
     public Text waveText;
     public Text remaining;
     public GameObject[] enemies;
     private GameObject[] _spawnPoints;
-    private int _wave = 0;
+    private int _wave;
     public int[] enemyPerWave;
-    private float _waveTime = 0f;
+    private float _waveTime;
 
     private Player _player;
-    private bool _hasWon = false;
+    private bool _hasWon;
 
     public void Awake()
     {
@@ -69,12 +71,12 @@ public class GameManager : MonoBehaviour {
         timeText.text = "Time: " + (int)_time;
         scoreText.text = "Score: " + score + "   " + multiplier + "X";
         waveText.text = "Wave: " + _wave + "/" + enemyPerWave.Length;
-        waveText.text = "Remaining: " + enemyCount;// + "/" + GameObject.FindGameObjectsWithTag("Enemy").Length;
+        waveText.text = "Remaining: " + _enemyCount;// + "/" + GameObject.FindGameObjectsWithTag("Enemy").Length;
     }
 
     private void CheckForFailure() 
     {
-        if (! (_time < 0f || isDead || _hasWon)) {
+        if (! (_time < 0f || _isDead || _hasWon)) {
             return;
         }
 
@@ -100,7 +102,7 @@ public class GameManager : MonoBehaviour {
 
     private void CheckForWin() 
     {
-        if (!(enemyCount == 0 && !_hasWon && !isDead)) {
+        if (!(_enemyCount == 0 && !_hasWon && !_isDead)) {
             return;
         }
 
@@ -135,14 +137,14 @@ public class GameManager : MonoBehaviour {
         score += value * multiplier;
         multiplier++;
         _time += extraTimePerEnemy;
-        enemyCount--;
+        _enemyCount--;
     }
 
     public void endGame()
     {
         AnalyticsEvent.GameOver();
         AnalyticsEvent.LevelFail($"wave_{_wave}");
-        isDead = true;
+        _isDead = true;
     }
 
     public void exitGame() 
@@ -153,12 +155,12 @@ public class GameManager : MonoBehaviour {
 
     private IEnumerator spawnEnemies(int spawnThisWave)
     {
-        enemyCount += spawnThisWave;
+        _enemyCount += spawnThisWave;
         for (int i = 0; i < spawnThisWave; i++)
         {
             GameObject toInstantiate = enemies[Mathf.RoundToInt(Random.Range(0, enemies.Length-1))];
             Transform transform = _spawnPoints[Mathf.RoundToInt(Random.Range(0, _spawnPoints.Length-1))].transform;
-            GameObject instantiated = Instantiate(toInstantiate, transform) as GameObject;
+            GameObject instantiated = Instantiate(toInstantiate, transform);
             instantiated.transform.parent = transform;
             yield return new WaitForSeconds(2f);
         }

@@ -1,6 +1,6 @@
 namespace Enemies
 {
-    public enum Mode : int
+    public enum Mode
     {
         Stunned = 0,
         Moving = 1,

@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Explosion : MonoBehaviour {
     
@@ -10,15 +8,16 @@ public class Explosion : MonoBehaviour {
     public int timeRigidBody;
     
     [Range(0, 1500)]
-    public float force=500;
+    public float force = 500;
     
     [Range(0, 300)]
     public float range;
     
     [Range(0, 0.2f)]
-    public float upWard=0.05f;
+    public float upWard = 0.05f;
 
-    private void Start () {
+    private void Start () 
+    {
         foreach (var rigidBody in gameObject.GetComponentsInChildren<Rigidbody>())
         {
             rigidBody.AddExplosionForce(force, source.transform.position, range, upWard);
@@ -36,9 +35,5 @@ public class Explosion : MonoBehaviour {
             particleSystem.Play();
         }
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
 }

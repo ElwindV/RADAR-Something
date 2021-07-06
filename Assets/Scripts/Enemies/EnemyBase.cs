@@ -14,7 +14,7 @@ namespace Enemies
 
         public GameObject[] explosions;
         
-        private float _shadeTime = 0f;
+        private float _shadeTime;
         private bool _isTransparent = true;
 
         protected float x, z;

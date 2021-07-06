@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System;
+using UnityEngine;
 
 public class LevelLoader : MonoBehaviour
 {
@@ -51,12 +51,12 @@ public class LevelLoader : MonoBehaviour
                 {
                     if (_pix[x + y * _width] != pto.inputColor) continue;
                     
-                    var tile = Instantiate(pto.outputObject, new Vector3(x, 0 + pto.extraHeight, y), Quaternion.identity) as GameObject;
+                    var tile = Instantiate(pto.outputObject, new Vector3(x, 0 + pto.extraHeight, y), Quaternion.identity);
                     tile.transform.parent = chunks[x / 16, y / 9];
 
                     if (!pto.spawnFloor) continue;
                     
-                    var floor = Instantiate(basicFloor, new Vector3(x, 0, y), Quaternion.identity) as GameObject;
+                    var floor = Instantiate(basicFloor, new Vector3(x, 0, y), Quaternion.identity);
                     floor.transform.parent = chunks[x / 16, y / 9];
                 }
             }
@@ -67,14 +67,14 @@ public class LevelLoader : MonoBehaviour
         {
             for (var j = 0; j < verticalChunkCount; j++)
             {
-                if (chunks[i, j].childCount == 0) Object.DestroyImmediate(chunks[i, j].gameObject);
+                if (chunks[i, j].childCount == 0) DestroyImmediate(chunks[i, j].gameObject);
             }
         }
     }
 
 }
 
-[System.Serializable]
+[Serializable]
 public struct PixelToObject
 {
     public Color inputColor;

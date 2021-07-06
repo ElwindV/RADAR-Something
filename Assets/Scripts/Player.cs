@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class Player : MonoBehaviour
@@ -22,7 +20,7 @@ public class Player : MonoBehaviour
     private Quaternion _targetRotation;
     private Rigidbody _myRigidbody;
 
-    private bool _hasGun = false;
+    private bool _hasGun;
     private GameObject _gun;
     private Vector3 _gunPosition;
     private const float GunPickupRange = 1.5f;
