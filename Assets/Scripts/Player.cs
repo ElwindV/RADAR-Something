@@ -18,7 +18,7 @@ public class Player : MonoBehaviour
     public AudioClip[] sounds;
     private Quaternion _currentRotation;
     private Quaternion _targetRotation;
-    private Rigidbody _myRigidbody;
+    private Rigidbody _rigidbody;
 
     private bool _hasGun;
     private GameObject _gun;
@@ -30,7 +30,7 @@ public class Player : MonoBehaviour
     public void Start()
     {
         _shownHitPoints = hitPoints = maxHitPoints;
-        _myRigidbody = GetComponent<Rigidbody>();
+        _rigidbody = GetComponent<Rigidbody>();
         _gun = GameObject.Find("Gun");
         _gunPosition = _gun.transform.position;
 
@@ -48,7 +48,7 @@ public class Player : MonoBehaviour
         if (Input.GetKey("escape"))
             _gameManager.ExitGame();
 
-        _myRigidbody.velocity = new Vector3(Input.GetAxisRaw("LeftJoyX"), 0, Input.GetAxisRaw("LeftJoyY")) * speed * 50f * Time.fixedDeltaTime;
+        _rigidbody.velocity = new Vector3(Input.GetAxisRaw("LeftJoyX"), 0, Input.GetAxisRaw("LeftJoyY")) * speed * 50f * Time.fixedDeltaTime;
 
         if (Input.GetButton("Fire1"))
             ShootGun();

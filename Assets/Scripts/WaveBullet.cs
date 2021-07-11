@@ -5,8 +5,7 @@ public class WaveBullet : Bullet
     public override void Init(Vector3 position, Vector3 direction)
     {
         base.Init(position, direction);
-        transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
-        
+
         var direction2d = new Vector2(direction.x, direction.z);
 
         var y = (direction2d.x > 0)

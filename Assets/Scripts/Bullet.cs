@@ -40,7 +40,7 @@ public class Bullet : MonoBehaviour {
     public virtual void OnCollisionEnter(Collision col)
     {
         var enemy = col.transform.GetComponent<EnemyBase>();
-        
+
         if (enemy != null) {
             enemy.TakeDamage(damage);
         }
