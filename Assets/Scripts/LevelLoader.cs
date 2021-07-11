@@ -10,7 +10,6 @@ public class LevelLoader : MonoBehaviour
     public Vector2Int chunkSize;
     
     [Header("Tiles")]
-    public GameObject basicFloor;
     public PixelToObjectSO[] objects;
 
     private int _imageWidth;
