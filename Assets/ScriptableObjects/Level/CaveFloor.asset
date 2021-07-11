@@ -15,4 +15,6 @@ MonoBehaviour:
   inputColor: {r: 1, g: 0, b: 1, a: 1}
   prefabs:
   - {fileID: 5665178079090721835, guid: 925b058f29fb9544495923821031c325, type: 3}
+  - {fileID: 6457387126145916940, guid: 800f0af3d5509274eb67961059071d3e, type: 3}
+  - {fileID: 6162915772743003215, guid: 574093755d5c71842aa2c8de66c8d2ca, type: 3}
   floor: {fileID: 0}

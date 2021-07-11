@@ -92,7 +92,7 @@ GameObject:
   - component: {fileID: 5031947804025036433}
   - component: {fileID: 4782726748628413689}
   m_Layer: 0
-  m_Name: cave_floor
+  m_Name: cave_floor_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
