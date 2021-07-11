@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f016cb890051d643a35cb7011d26bc3, type: 3}
+  m_Name: Barrel
+  m_EditorClassIdentifier: 
+  inputColor: {r: 0, g: 0, b: 1, a: 1}
+  prefabs:
+  - {fileID: 5299747451375057841, guid: 029cc7ccd4f709747b67eafb5819a87f, type: 3}
+  - {fileID: 6685832887955258949, guid: 70867648777614244bbd971d42a4d843, type: 3}
+  floor: {fileID: 11400000, guid: 5fa8dc7cfd4e2b54182c8181a91f93c9, type: 2}

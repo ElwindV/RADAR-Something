@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Level;
 using UnityEngine;
 
 public class LevelLoader : MonoBehaviour
@@ -6,17 +6,21 @@ public class LevelLoader : MonoBehaviour
     [Header("Image Settings")]
     public Texture2D level;
 
+    [Header("Generation properties")] 
+    public Vector2Int chunkSize;
+    
     [Header("Tiles")]
     public GameObject basicFloor;
-    public PixelToObject[] objects;
+    public PixelToObjectSO[] objects;
 
-    private int _width;
-    private int _height;
-    private Color[] _pix;
+    private int _imageWidth;
+    private int _imageHeight;
+    private Color[] _pixels;
 
     public void LoadLevel()
     {
-        var holderName = "Level";
+        const string holderName = "Level";
+        
         if (transform.Find(holderName))
         {
             DestroyImmediate(transform.Find(holderName).gameObject);
@@ -25,14 +29,15 @@ public class LevelLoader : MonoBehaviour
         var mapHolder = new GameObject(holderName).transform;
         mapHolder.parent = transform;
 
-        _width = Mathf.FloorToInt(level.width);
-        _height = Mathf.FloorToInt(level.height);
-        _pix = level.GetPixels(0, 0, _width, _height);
+        _imageWidth = Mathf.FloorToInt(level.width);
+        _imageHeight = Mathf.FloorToInt(level.height);
+        _pixels = level.GetPixels(0, 0, _imageWidth, _imageHeight);
 
         /*Create empty chunks*/
-        var horizontalChunkCount = _width / 16 + 1;
-        var verticalChunkCount = _height / 9 + 1;
+        var horizontalChunkCount = _imageWidth / chunkSize.x + 1;
+        var verticalChunkCount = _imageHeight / chunkSize.y + 1;
         var chunks = new Transform[horizontalChunkCount, verticalChunkCount];
+        
         for (var i = 0; i < horizontalChunkCount; i++)
         {
             for (var j = 0; j < verticalChunkCount; j++)
@@ -43,21 +48,20 @@ public class LevelLoader : MonoBehaviour
         }
 
         /*Spawn tiles and places them in chunks*/
-        for (var x = 0; x < _width; x++)
+        for (var x = 0; x < _imageWidth; x++)
         {
-            for (var y = 0; y < _height; y++)
+            for (var y = 0; y < _imageHeight; y++)
             {
-                foreach (var pto in objects)
+                foreach (var pixelToObjectSO in objects)
                 {
-                    if (_pix[x + y * _width] != pto.inputColor) continue;
-                    
-                    var tile = Instantiate(pto.outputObject, new Vector3(x, 0 + pto.extraHeight, y), Quaternion.identity);
-                    tile.transform.parent = chunks[x / 16, y / 9];
+                    if (_pixels[x + y * _imageWidth] != pixelToObjectSO.inputColor) continue;
 
-                    if (!pto.spawnFloor) continue;
+                    var chunk = chunks[x / chunkSize.x, y / chunkSize.y];
                     
-                    var floor = Instantiate(basicFloor, new Vector3(x, 0, y), Quaternion.identity);
-                    floor.transform.parent = chunks[x / 16, y / 9];
+                    pixelToObjectSO.SpawnObject(
+                        new Vector3(x, 0, y), 
+                        chunk
+                    );
                 }
             }
         }
@@ -72,13 +76,4 @@ public class LevelLoader : MonoBehaviour
         }
     }
 
-}
-
-[Serializable]
-public struct PixelToObject
-{
-    public Color inputColor;
-    public GameObject outputObject;
-    public float extraHeight;
-    public bool spawnFloor;
 }
