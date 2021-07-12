@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Audio;
 using Managers;
 using UnityEngine;
 
@@ -22,8 +23,10 @@ namespace Enemies
 
         private GameManager _gameManager;
 
-        public AudioClip[] sounds;
-        private AudioSource _audioSource;
+        [Header("Audio")] 
+        public AudioCueEventChannelSO eventChannelSO;
+        public AudioCueSO hurtSfx;
+        public AudioCueSO deathSfx;
 
         protected Rigidbody rigid;
 
@@ -33,7 +36,6 @@ namespace Enemies
             mode = Mode.Moving;
             _renderer = GetComponent<Renderer>();
             rigid = GetComponent<Rigidbody>();
-            _audioSource = GetComponent<AudioSource>();
             player = GameObject.FindGameObjectWithTag("Player");
 
             var position = transform.position;
@@ -97,21 +99,21 @@ namespace Enemies
         public void TakeDamage(float damage)
         {
             hitPoints -= damage;
-            _audioSource.PlayOneShot(sounds[0]);
+            
             if (hitPoints <= 0)
             {
                 if (explosions.Length > 0)
                 {
                     Instantiate(explosions[Random.Range(0, explosions.Length)]).transform.position = transform.position;
                 }
-                _audioSource.PlayOneShot(sounds[1]);
+                eventChannelSO.RaiseEvent(deathSfx);
                 _gameManager.AddScore(1);
                 Destroy(transform.gameObject);
+
+                return;
             }
-            else
-            {
-                _audioSource.PlayOneShot(sounds[0]);
-            }
+
+            eventChannelSO.RaiseEvent(hurtSfx);
         }
 
         protected void ClampPosition() 

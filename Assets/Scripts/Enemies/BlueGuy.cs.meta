@@ -1,10 +1,12 @@
 fileFormatVersion: 2
 guid: 2200aa3df1e8c0748af73603f56ee5b1
-timeCreated: 1484948376
-licenseType: Free
 MonoImporter:
+  externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - eventChannelSO: {fileID: 11400000, guid: 09493f8b2883c9147a94b6b28842c2dd, type: 2}
+  - hurtSfx: {fileID: 11400000, guid: 14a5c14870ce8ee4b88158c93ad4f761, type: 2}
+  - deathSfx: {fileID: 11400000, guid: d06184e198144124180bc9d562327957, type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

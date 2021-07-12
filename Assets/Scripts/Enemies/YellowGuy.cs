@@ -1,10 +1,12 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Enemies
 {
     public class YellowGuy : EnemyBase
     {
-        public Vector3 direction;
+        private Vector3 _direction;
         private float _speed = 1.2f;
 
         public int timer;
@@ -25,7 +27,7 @@ namespace Enemies
                 z = Random.Range(-1, 2);
             }
 
-            direction = new Vector3(x, 0, z);
+            _direction = new Vector3(x, 0, z);
         }
 	
         public void FixedUpdate () {
@@ -44,7 +46,7 @@ namespace Enemies
             if (distance < 4) {
                 _speed = 2.5f;
                 toTarget = toTarget.normalized;
-                direction = toTarget;
+                _direction = toTarget;
             }
             else if (timer <= 0) {
                 timer = 60 * 5;
@@ -67,11 +69,11 @@ namespace Enemies
                     change = false;
                 }
 
-                direction = new Vector3(x, 0, z);
+                _direction = new Vector3(x, 0, z);
             }
         
 
-            transform.Translate(direction * (_speed * Time.fixedDeltaTime));
+            transform.Translate(_direction * (_speed * Time.fixedDeltaTime));
             ClampPosition(); 
         }
     }
