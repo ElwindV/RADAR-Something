@@ -9,14 +9,14 @@ namespace Enemies
         private Vector3 _direction;
         private float _speed = 1.2f;
 
-        public int timer;
-        public bool change;
+        private int _timer;
+        private bool _change;
 
         public override void Start()
         {
             base.Start();
-            timer = 60 * 5;
-            change = false;
+            _timer = 60 * 5;
+            _change = false;
 
             x = Random.Range(-1, 2);
             z = Random.Range(-1, 2);
@@ -38,7 +38,7 @@ namespace Enemies
             }
 
             rigid.isKinematic = false;
-            timer -= 1;
+            _timer -= 1;
 
             var toTarget = player.transform.position - transform.position;
             var distance = Vector3.Distance(player.transform.position, transform.position);
@@ -48,14 +48,14 @@ namespace Enemies
                 toTarget = toTarget.normalized;
                 _direction = toTarget;
             }
-            else if (timer <= 0) {
-                timer = 60 * 5;
+            else if (_timer <= 0) {
+                _timer = 60 * 5;
 
-                if (change == false) {
+                if (_change == false) {
                     x *= -1;
                     z *= -1;
 
-                    change = true;
+                    _change = true;
                 }
                 else {
                     x = Random.Range(-1, 2);
@@ -66,7 +66,7 @@ namespace Enemies
                         z = Random.Range(-1, 2);
                     }
 
-                    change = false;
+                    _change = false;
                 }
 
                 _direction = new Vector3(x, 0, z);

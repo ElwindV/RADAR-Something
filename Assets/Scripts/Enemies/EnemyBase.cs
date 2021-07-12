@@ -8,14 +8,12 @@ namespace Enemies
     public abstract class EnemyBase : MonoBehaviour {
         public Mode mode;
         public float startHP;
-        public float hitPoints;
+        private float _hitPoints;
 
         protected GameObject player;
 
         private Renderer _renderer;
 
-        public GameObject[] explosions;
-        
         private float _shadeTime;
         private bool _isTransparent = true;
 
@@ -32,7 +30,7 @@ namespace Enemies
 
         public virtual void Start() 
         {
-            hitPoints = startHP;
+            _hitPoints = startHP;
             mode = Mode.Moving;
             _renderer = GetComponent<Renderer>();
             rigid = GetComponent<Rigidbody>();
@@ -71,7 +69,7 @@ namespace Enemies
             FadeIn();
 
             mode = Mode.Stunned;
-            StartCoroutine(Invis(true));
+            StartCoroutine(Invisible(true));
             col.transform.GetComponent<Player>().TakeDamage(2);
             _gameManager.ResetMultiplier();
         }
@@ -80,17 +78,17 @@ namespace Enemies
         {
             if (other.CompareTag("beam"))
             {
-                StartCoroutine(Invis());
+                StartCoroutine(Invisible());
             }
         }
 
-        private IEnumerator Invis()
+        private IEnumerator Invisible()
         {
             yield return new WaitForSeconds(2);
 
             FadeOut();
         }
-        private IEnumerator Invis(bool stun)
+        private IEnumerator Invisible(bool stun)
         {
             yield return new WaitForSeconds(2);
             mode = Mode.Moving;
@@ -98,17 +96,13 @@ namespace Enemies
         }
         public void TakeDamage(float damage)
         {
-            hitPoints -= damage;
+            _hitPoints -= damage;
             
-            if (hitPoints <= 0)
+            if (_hitPoints <= 0)
             {
-                if (explosions.Length > 0)
-                {
-                    Instantiate(explosions[Random.Range(0, explosions.Length)]).transform.position = transform.position;
-                }
                 eventChannelSO.RaiseEvent(deathSfx);
                 _gameManager.AddScore(1);
-                Destroy(transform.gameObject);
+                Destroy(gameObject);
 
                 return;
             }
