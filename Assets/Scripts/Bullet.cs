@@ -4,21 +4,21 @@ using UnityEngine;
 public class Bullet : MonoBehaviour {
     
     [Range(0,15)]
-    public float speed=2;
-    public Vector3 direction;
-    public Rigidbody myRigidBody;
+    public float speed = 2f;
+    [HideInInspector] public Vector3 direction;
+    private Rigidbody _rigidBody;
     [Range(0,15)]
     public float damage = 2;
     public GameObject[] explosions;
 
     private void Start () 
     {
-        myRigidBody = GetComponent<Rigidbody>();
+        _rigidBody = GetComponent<Rigidbody>();
 	}
 
     public void FixedUpdate () 
     {
-        myRigidBody.velocity = direction * speed;
+        _rigidBody.velocity = direction * speed;
 	}
 
     public virtual void Init(Vector3 position, Vector3 direction)
@@ -37,9 +37,11 @@ public class Bullet : MonoBehaviour {
         transform.rotation = Quaternion.Euler(0, 180 + Vector2.Angle(Vector2.down, direction2d), 0);
     }
 
-    public virtual void OnCollisionEnter(Collision col)
+    public virtual void OnCollisionEnter(Collision collision)
     {
-        var enemy = col.transform.GetComponent<EnemyBase>();
+        if (collision.gameObject.CompareTag("Player")) return;
+
+        var enemy = collision.transform.GetComponent<EnemyBase>();
 
         if (enemy != null) {
             enemy.TakeDamage(damage);

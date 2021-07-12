@@ -90,8 +90,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4125453149536158}
-  - component: {fileID: 136079645627994164}
   - component: {fileID: 114365929984611386}
+  - component: {fileID: 136079645627994164}
   - component: {fileID: 404247471}
   m_Layer: 0
   m_Name: Player
@@ -116,6 +116,32 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114365929984611386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1464319859246898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6055a13bc3721004c862ef3e300e594f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 5
+  turnSpeed: 15
+  bulletSpawnPoint: {fileID: 4138392105660038}
+  shootDelay: 0.5
+  maxHitPoints: 10
+  hitPoints: 0
+  healthBar: {fileID: 0}
+  bulletPrefabs:
+  - {fileID: 1400373500547692, guid: d364c9dd6887ea24ebd722d2be9d0d32, type: 3}
+  - {fileID: 1166123111221648, guid: 17685009eb1f0a9478ee0dafc8625b00, type: 3}
+  eventChannelSO: {fileID: 11400000, guid: 09493f8b2883c9147a94b6b28842c2dd, type: 2}
+  shootSfx: {fileID: 11400000, guid: 2d919a9220a3dc24f85f90eb6e3e5ae5, type: 2}
+  waveSfx: {fileID: 11400000, guid: 14e027db01dc9fa4db7e58a640f5eb7b, type: 2}
+  pickupSfx: {fileID: 11400000, guid: 93e1ba365e830c04b9b14fa388e0f707, type: 2}
 --- !u!136 &136079645627994164
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -130,32 +156,6 @@ CapsuleCollider:
   m_Height: 2.1
   m_Direction: 1
   m_Center: {x: 0, y: 0.1, z: 0}
---- !u!114 &114365929984611386
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1464319859246898}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6055a13bc3721004c862ef3e300e594f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 5
-  turnSpeed: 5
-  bulletSpawnPoint: {fileID: 4138392105660038}
-  shootDelay: 0.5
-  maxHitPoints: 10
-  hitPoints: 0
-  healthBar: {fileID: 0}
-  bulletPrefabs:
-  - {fileID: 1400373500547692, guid: d364c9dd6887ea24ebd722d2be9d0d32, type: 3}
-  - {fileID: 1166123111221648, guid: 17685009eb1f0a9478ee0dafc8625b00, type: 3}
-  eventChannelSO: {fileID: 11400000, guid: 09493f8b2883c9147a94b6b28842c2dd, type: 2}
-  shootSfx: {fileID: 11400000, guid: 2d919a9220a3dc24f85f90eb6e3e5ae5, type: 2}
-  waveSfx: {fileID: 11400000, guid: 14e027db01dc9fa4db7e58a640f5eb7b, type: 2}
-  pickupSfx: {fileID: 11400000, guid: 93e1ba365e830c04b9b14fa388e0f707, type: 2}
 --- !u!54 &404247471
 Rigidbody:
   m_ObjectHideFlags: 0

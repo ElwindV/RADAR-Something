@@ -14,7 +14,7 @@ public class WaveBullet : Bullet
 
         transform.rotation = Quaternion.Euler(0, y, 0);
     }
-    public override void OnCollisionEnter(Collision col)
+    public override void OnCollisionEnter(Collision collision)
     {
     }
 }
