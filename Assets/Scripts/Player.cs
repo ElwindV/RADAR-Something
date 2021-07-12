@@ -16,8 +16,8 @@ public class Player : MonoBehaviour
     public GameObject[] bulletPrefabs;
     public AudioSource audioSource;
     public AudioClip[] sounds;
-    private Quaternion _currentRotation;
-    private Quaternion _targetRotation;
+    // private Quaternion _currentRotation;
+    // private Quaternion _targetRotation;
     private Rigidbody _rigidbody;
 
     private bool _hasGun;
@@ -26,9 +26,11 @@ public class Player : MonoBehaviour
     private const float GunPickupRange = 1.5f;
     private GameManager _gameManager;
     private float _lastFireTime = float.NegativeInfinity;
+    private Camera _camera;
 
     public void Start()
     {
+        _camera = Camera.main;
         _shownHitPoints = hitPoints = maxHitPoints;
         _rigidbody = GetComponent<Rigidbody>();
         _gun = GameObject.Find("Gun");
@@ -48,12 +50,12 @@ public class Player : MonoBehaviour
         if (Input.GetKey("escape"))
             _gameManager.ExitGame();
 
-        _rigidbody.velocity = new Vector3(Input.GetAxisRaw("LeftJoyX"), 0, Input.GetAxisRaw("LeftJoyY")) * speed * 50f * Time.fixedDeltaTime;
+        _rigidbody.velocity = new Vector3(Input.GetAxisRaw("LeftJoyX"), 0, Input.GetAxisRaw("LeftJoyY")) * (speed * 50f * Time.fixedDeltaTime);
 
-        if (Input.GetButton("Fire1"))
+        if (Input.GetButton("Fire1") || Input.GetMouseButton(0))
             ShootGun();
 
-        if (Input.GetButton("Fire2"))
+        if (Input.GetButton("Fire2") || Input.GetMouseButton(1))
             ShootWave();
 
         HandleRotation(new Vector2(Input.GetAxisRaw("RightJoyX"), Input.GetAxisRaw("RightJoyY")));
@@ -61,21 +63,34 @@ public class Player : MonoBehaviour
         HandlePickup();
     }
 
-    private void HandleRotation(Vector2 input) 
+    private void HandleRotation(Vector2 input)
     {
-        if (Vector2.Distance(Vector2.zero, input) <= .1f)
-            return;
+        var ray = _camera.ScreenPointToRay(Input.mousePosition);
 
-        _currentRotation = transform.rotation;
-        _targetRotation = (input.x > 0)
-            ? Quaternion.Euler(0, Vector2.Angle(Vector2.down, input), 0)
-            : Quaternion.Euler(0, 180 + Vector2.Angle(Vector2.up, input), 0);
+        if (!Physics.Raycast(ray, out var hit, Mathf.Infinity)) return;
+        
+        var targetDirection = hit.point;
+        
+        var position = transform.position;
+        targetDirection.y = position.y;
+        targetDirection -= position;
 
-        if (_currentRotation != _targetRotation) {
-            transform.rotation = Quaternion.Lerp(_currentRotation, _targetRotation, Time.deltaTime * turnSpeed);
-        } 
+        var newDirection = Vector3.RotateTowards(transform.forward, targetDirection, Time.deltaTime * turnSpeed, 0.0f);
+
+        transform.rotation = Quaternion.LookRotation(newDirection);
+
+        // if (Vector2.Distance(Vector2.zero, input) <= .1f)
+        //     return;
+
+        // _currentRotation = transform.rotation;
+        // _targetRotation = (input.x > 0)
+        //     ? Quaternion.Euler(0, Vector2.Angle(Vector2.down, input), 0)
+        //     : Quaternion.Euler(0, 180 + Vector2.Angle(Vector2.up, input), 0);
+
+        // if (_currentRotation != _targetRotation)
+        //     transform.rotation = Quaternion.Lerp(_currentRotation, _targetRotation, Time.deltaTime * turnSpeed);
     }
-
+    
     private void ShootGun() 
     {
         if (! _hasGun) {
