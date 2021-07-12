@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using Audio;
+using Managers;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class Player : MonoBehaviour
@@ -14,8 +16,13 @@ public class Player : MonoBehaviour
     private float _shownHitPoints;
     public Image healthBar;
     public GameObject[] bulletPrefabs;
-    public AudioSource audioSource;
-    public AudioClip[] sounds;
+
+    [Header("Audio")] 
+    public AudioCueEventChannelSO eventChannelSO;
+    public AudioCueSO shootSfx;
+    public AudioCueSO waveSfx;
+    public AudioCueSO pickupSfx;
+    
     // private Quaternion _currentRotation;
     // private Quaternion _targetRotation;
     private Rigidbody _rigidbody;
@@ -101,7 +108,7 @@ public class Player : MonoBehaviour
             return;
         }
         var bullet = Instantiate(bulletPrefabs[0]);
-        audioSource.PlayOneShot(sounds[0]);
+        eventChannelSO.RaiseEvent(shootSfx);
         var bulletScript = bullet.GetComponent<Bullet>();
         _lastFireTime = Time.time;
         bulletScript.Init(bulletSpawnPoint.position, bulletSpawnPoint.forward);
@@ -113,7 +120,7 @@ public class Player : MonoBehaviour
         if (! CanFire()) {
             return;
         }
-        audioSource.PlayOneShot(sounds[1]);
+        eventChannelSO.RaiseEvent(waveSfx);
         var bullet = Instantiate(bulletPrefabs[1]);
         var bulletScript = bullet.GetComponent<Bullet>();
         _lastFireTime = Time.time;
@@ -150,6 +157,6 @@ public class Player : MonoBehaviour
 
         _hasGun = true;
         Destroy(_gun);
-        audioSource.PlayOneShot(sounds[2]);
+        eventChannelSO.RaiseEvent(pickupSfx);
     }
 }

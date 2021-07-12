@@ -49,7 +49,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   beginTime: 100
   timeText: {fileID: 0}
-  extraTimePerWave: 0
+  extraTimePerWave: 30
   score: 0
   scoreText: {fileID: 0}
   slowDownRate:
@@ -151,9 +151,8 @@ MonoBehaviour:
   enemies:
   - {fileID: 1527526740178448, guid: e6a47f67315c5b34abf9801356239480, type: 3}
   - {fileID: 1575728656916828, guid: 4c748eee5f060e643a4d37be617f1db4, type: 3}
-  - {fileID: 1567084702009396, guid: fae19d166b2ad8047a05b37855a9ef37, type: 3}
   - {fileID: 1937257921447804, guid: 81cd4e503bd442742ae808d3090fa3f8, type: 3}
-  enemyPerWave: 020000000400000008000000100000002000000040000000
+  enemyPerWave: 0200000004000000080000001000000020000000
 --- !u!1 &1610571101960060
 GameObject:
   m_ObjectHideFlags: 0
@@ -268,7 +267,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1989764475864512}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 21.65, y: -0.8166139, z: 1.13}
+  m_LocalPosition: {x: 21.65, y: -0.8166139, z: 3.92}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4350741631797794}

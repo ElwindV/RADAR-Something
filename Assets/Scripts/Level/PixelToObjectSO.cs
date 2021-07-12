@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Level
 {
-    [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/Level/PixelToObject", order = 1)]
+    [CreateAssetMenu(fileName = "Data", menuName = "Scriptable Objects/Level/PixelToObject", order = 1)]
     public class PixelToObjectSO : ScriptableObject
     {
         public Color inputColor;
