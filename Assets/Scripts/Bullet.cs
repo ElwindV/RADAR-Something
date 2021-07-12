@@ -9,7 +9,6 @@ public class Bullet : MonoBehaviour {
     private Rigidbody _rigidBody;
     [Range(0,15)]
     public float damage = 2;
-    public GameObject[] explosions;
 
     private void Start () 
     {
@@ -46,14 +45,7 @@ public class Bullet : MonoBehaviour {
         if (enemy != null) {
             enemy.TakeDamage(damage);
         }
-        if (explosions.Length > 0) {
-            Instantiate(explosions[Random.Range(0, explosions.Length)]).transform.position = transform.position;
-        }
-
-        Destroy(GetComponent<MeshRenderer>());
-        Destroy(GetComponent<Collider>());
-        Destroy(GetComponent<Rigidbody>());
-        Destroy(gameObject, 5);
-        Destroy(this);
+        
+        Destroy(gameObject);
     }
 }
