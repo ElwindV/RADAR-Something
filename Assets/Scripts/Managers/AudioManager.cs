@@ -8,13 +8,15 @@ namespace Managers
     public class AudioManager : MonoBehaviour
     {
         #region Variables
-        
-        private AudioSource _efxSource;
+
+        [SerializeField] [Range(1, 16)] private ushort poolSize = 8;
+
+        private AudioSource[] audioSources;
+        private ushort audioSourcePointer = 0;
+
         private AudioSource _musicSource;
 
-        [Header("Channels")] 
-        [SerializeField]
-        private AudioCueEventChannelSO sfxEventChannel;
+        [Header("Channels")] [SerializeField] private AudioCueEventChannelSO sfxEventChannel;
 
         #endregion
 
@@ -24,17 +26,32 @@ namespace Managers
         {
             sfxEventChannel.onAudioCueRequested += PlayAudioCue;
 
-            _efxSource = gameObject.AddComponent<AudioSource>();
+            audioSources = new AudioSource[poolSize];
+            for (var i = 0; i < poolSize; i++)
+            {
+                var source = new GameObject("SFX Pool Object");
+                source.transform.SetParent(transform);
+                audioSources[i] = source.AddComponent<AudioSource>();
+            }
+            
             _musicSource = gameObject.AddComponent<AudioSource>();
         }
 
         #endregion
 
+        private AudioSource GetFromPool()
+        {
+            audioSourcePointer += 1;
+            audioSourcePointer %= poolSize;
+
+            return audioSources[audioSourcePointer];
+        }
+
         private void PlayAudioCue(AudioCueSO audioCueSO)
         {
             var source = audioCueSO.type switch
             {
-                Type.FX => _efxSource,
+                Type.FX => GetFromPool(),
                 Type.Music => _musicSource,
                 _ => throw new ArgumentException("Invalid Audio Type"),
             };

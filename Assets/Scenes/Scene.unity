@@ -8274,6 +8274,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameManager
       objectReference: {fileID: 0}
+    - target: {fileID: 1610571101960060, guid: 19fe232df751ae640954b595146f729a, type: 3}
+      propertyPath: m_Name
+      value: EnemySpawn (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742935249512822, guid: 19fe232df751ae640954b595146f729a, type: 3}
+      propertyPath: m_Name
+      value: EnemySpawn (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4202446601418496, guid: 19fe232df751ae640954b595146f729a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4350741631797794, guid: 19fe232df751ae640954b595146f729a, type: 3}
       propertyPath: m_RootOrder
       value: 7
@@ -8316,6 +8328,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4350741631797794, guid: 19fe232df751ae640954b595146f729a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4445822866296612, guid: 19fe232df751ae640954b595146f729a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4500376516914150, guid: 19fe232df751ae640954b595146f729a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4706123211160822, guid: 19fe232df751ae640954b595146f729a, type: 3}
+      propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114599521017028890, guid: 19fe232df751ae640954b595146f729a,
