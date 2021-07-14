@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3232491209770270889}
   - component: {fileID: 7163510404776063962}
   m_Layer: 0
-  m_Name: Gun
+  m_Name: Wave Gun
   m_TagString: Pickup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -42,7 +42,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2891072287495749885}
-  m_Mesh: {fileID: -2432090755550338912, guid: 373a5c9b74c1a464aaa084fb11da4e3b, type: 3}
+  m_Mesh: {fileID: -2432090755550338912, guid: 5a72f74e4f2edc647aaf8121bed56dd3, type: 3}
 --- !u!23 &2891072287495749886
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -112,8 +112,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01ec132c10be27e4c83db4e022d2c1f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bodypart: 3
-  prefab: {fileID: 6416812215000132785, guid: 609d3aff7b204b647914ff8c59f2377a, type: 3}
+  bodypart: 4
+  prefab: {fileID: 845659526018709936, guid: 53afb382a4100e14abbfa3340b8705f4, type: 3}
   audioEventChannel: {fileID: 11400000, guid: 09493f8b2883c9147a94b6b28842c2dd, type: 2}
   pickupSound: {fileID: 11400000, guid: 93e1ba365e830c04b9b14fa388e0f707, type: 2}
 --- !u!136 &7163510404776063962

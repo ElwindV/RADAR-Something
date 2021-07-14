@@ -30,8 +30,6 @@ public class Player : MonoBehaviour
 
     private bool _hasGun;
     private GameObject _gun;
-    private Vector3 _gunPosition;
-    private const float GunPickupRange = 1.5f;
     private GameManager _gameManager;
     private float _lastFireTime = float.NegativeInfinity;
     private Camera _camera;
@@ -41,8 +39,6 @@ public class Player : MonoBehaviour
         _camera = Camera.main;
         _shownHitPoints = hitPoints = maxHitPoints;
         _rigidbody = GetComponent<Rigidbody>();
-        _gun = GameObject.Find("Gun");
-        _gunPosition = _gun.transform.position;
 
         _gameManager = GameObject.FindWithTag("GameManager").GetComponent<GameManager>();
     }
@@ -67,8 +63,6 @@ public class Player : MonoBehaviour
             ShootWave();
 
         HandleRotation(new Vector2(Input.GetAxisRaw("RightJoyX"), Input.GetAxisRaw("RightJoyY")));
-
-        HandlePickup();
     }
 
     private void HandleRotation(Vector2 input)
@@ -145,19 +139,5 @@ public class Player : MonoBehaviour
     public void RestoreHealth()
     {
         hitPoints = maxHitPoints;
-    }
-
-    private void HandlePickup() 
-    {
-        if (_hasGun)
-            return;
-
-        if (Vector3.Distance(transform.position, _gunPosition) >= GunPickupRange) {
-            return;
-        }
-
-        _hasGun = true;
-        Destroy(_gun);
-        eventChannelSO.RaiseEvent(pickupSfx);
     }
 }

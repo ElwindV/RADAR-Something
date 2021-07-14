@@ -6,10 +6,10 @@ TagManager:
   tags:
   - beam
   - Fire
-  - gun
   - GameManager
   - Enemy
   - EnemySpawn
+  - Pickup
   layers:
   - Default
   - TransparentFX
