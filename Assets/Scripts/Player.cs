@@ -28,8 +28,6 @@ public class Player : MonoBehaviour
     // private Quaternion _targetRotation;
     private Rigidbody _rigidbody;
 
-    private bool _hasGun;
-    private GameObject _gun;
     private GameManager _gameManager;
     private float _lastFireTime = float.NegativeInfinity;
     private Camera _camera;
@@ -95,10 +93,6 @@ public class Player : MonoBehaviour
     
     private void ShootGun() 
     {
-        if (! _hasGun) {
-            return;
-        }
-
         if (! CanFire()) {
             return;
         }
