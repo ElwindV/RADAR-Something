@@ -30,6 +30,26 @@ public class Body : MonoBehaviour
 
         var newPart = Instantiate(prefab, transform, false);
         newPart.transform.localPosition = Vector3.zero;
+
+        switch (part)
+        {
+            case Bodypart.Hair:
+                hair = newPart;
+                break;
+            case Bodypart.Scarf:
+                scarf = newPart;
+                break;
+            case Bodypart.Chassis:
+                chassis = newPart;
+                break;
+            case Bodypart.LeftArm:
+                leftArm = newPart;
+                break;
+            case Bodypart.RightArm:
+                rightArm = newPart;
+                break;
+            default: break;
+        }
     }
 
     public void LeftArmAction()
