@@ -47,6 +47,7 @@ namespace Enemies
                 _speed = 2.5f;
                 toTarget = toTarget.normalized;
                 _direction = toTarget;
+                _direction.y = 0;
             }
             else if (_timer <= 0) {
                 _timer = 60 * 5;

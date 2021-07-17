@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 8774993469095720984}
   - component: {fileID: 7450094942206191762}
   - component: {fileID: 872988966587888997}
-  m_Layer: 0
+  - component: {fileID: -7381560017083673777}
+  m_Layer: 3
   m_Name: Left Arm (With Shotgun)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28,7 +29,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 5593363516452345637}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -81,3 +83,53 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &-7381560017083673777
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2135936160795474174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74ebceb726dd58a41aa31407005bcc33, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletSpawnPoint: {fileID: 5593363516452345637}
+  shootDelay: 1.3
+  bulletsPerShot: 6
+  spread: 30
+  bulletPrefab: {fileID: 1400373500547692, guid: d364c9dd6887ea24ebd722d2be9d0d32,
+    type: 3}
+  eventChannelSO: {fileID: 11400000, guid: 09493f8b2883c9147a94b6b28842c2dd, type: 2}
+  shootSfx: {fileID: 11400000, guid: 2d919a9220a3dc24f85f90eb6e3e5ae5, type: 2}
+--- !u!1 &7135616219352123604
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5593363516452345637}
+  m_Layer: 3
+  m_Name: Bullet Spawn Point
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5593363516452345637
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7135616219352123604}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.25000003, y: 0.45000002, z: 0.454}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 8774993469095720984}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

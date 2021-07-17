@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3563401120150246818}
   - component: {fileID: 7373689923726444231}
   - component: {fileID: 7506709983197614750}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Hair (Blue)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

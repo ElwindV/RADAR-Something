@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4876276183617407072}
   - component: {fileID: 136079645627994164}
   - component: {fileID: 404247471}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -31,7 +31,6 @@ Transform:
   m_LocalPosition: {x: 4.379573, y: 1.157, z: 4.286139}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 4138392105660038}
   - {fileID: 8465122134963514147}
   - {fileID: 8644054528823459856}
   - {fileID: 6014107422899113320}
@@ -54,7 +53,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   turnSpeed: 15
-  bulletSpawnPoint: {fileID: 4138392105660038}
+  bulletSpawnPoint: {fileID: 0}
   shootDelay: 0.5
   maxHitPoints: 10
   hitPoints: 0
@@ -65,7 +64,6 @@ MonoBehaviour:
   eventChannelSO: {fileID: 11400000, guid: 09493f8b2883c9147a94b6b28842c2dd, type: 2}
   shootSfx: {fileID: 11400000, guid: 2d919a9220a3dc24f85f90eb6e3e5ae5, type: 2}
   waveSfx: {fileID: 11400000, guid: 14e027db01dc9fa4db7e58a640f5eb7b, type: 2}
-  pickupSfx: {fileID: 11400000, guid: 93e1ba365e830c04b9b14fa388e0f707, type: 2}
 --- !u!114 &4876276183617407072
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -113,36 +111,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 116
   m_CollisionDetection: 0
---- !u!1 &1832679530258424
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4138392105660038}
-  m_Layer: 0
-  m_Name: BulletSpawnPoint
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &4138392105660038
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1832679530258424}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.254, y: 0.474, z: 0.649}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4125453149536158}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &3059733693160100354
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -155,10 +123,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: Hair
       objectReference: {fileID: 0}
+    - target: {fileID: 1610868341432935950, guid: 3496c308d85237c4eb260f22c423b22b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 6848985672394602785, guid: 3496c308d85237c4eb260f22c423b22b,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6848985672394602785, guid: 3496c308d85237c4eb260f22c423b22b,
         type: 3}
@@ -236,10 +209,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: Scarf
       objectReference: {fileID: 0}
+    - target: {fileID: 1721555743269921366, guid: c7318ec26ebd5ea47a0a0b651f404850,
+        type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 3354049547072929639, guid: c7318ec26ebd5ea47a0a0b651f404850,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3354049547072929639, guid: c7318ec26ebd5ea47a0a0b651f404850,
         type: 3}
@@ -315,7 +293,7 @@ PrefabInstance:
     - target: {fileID: 2574994347623941357, guid: 6da4f71830da6934199b8166c0f9fd4c,
         type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2574994347623941357, guid: 6da4f71830da6934199b8166c0f9fd4c,
         type: 3}
@@ -372,6 +350,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Left Arm
       objectReference: {fileID: 0}
+    - target: {fileID: 5178967193839272971, guid: 6da4f71830da6934199b8166c0f9fd4c,
+        type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6da4f71830da6934199b8166c0f9fd4c, type: 3}
 --- !u!1 &2861929762102075510 stripped
@@ -398,10 +381,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: Right Arm
       objectReference: {fileID: 0}
+    - target: {fileID: 633956217653960921, guid: 1598de4cd2de9e04bb46ea026c279bad,
+        type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4947808045955881701, guid: 1598de4cd2de9e04bb46ea026c279bad,
         type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4947808045955881701, guid: 1598de4cd2de9e04bb46ea026c279bad,
         type: 3}
@@ -477,7 +465,7 @@ PrefabInstance:
     - target: {fileID: 2400537212624911107, guid: aab68917f7b727e43ac2c8ff1a4dd239,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2400537212624911107, guid: aab68917f7b727e43ac2c8ff1a4dd239,
         type: 3}
@@ -533,6 +521,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Chassis
+      objectReference: {fileID: 0}
+    - target: {fileID: 7018148802300868107, guid: aab68917f7b727e43ac2c8ff1a4dd239,
+        type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aab68917f7b727e43ac2c8ff1a4dd239, type: 3}

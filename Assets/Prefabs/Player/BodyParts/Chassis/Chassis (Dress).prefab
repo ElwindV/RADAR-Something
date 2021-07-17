@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7936641932831681862}
   - component: {fileID: 4668177921211966136}
   - component: {fileID: 6716323676226879462}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Chassis (Dress)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

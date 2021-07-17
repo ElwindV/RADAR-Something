@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6848985672394602785}
   - component: {fileID: 588662810621160004}
   - component: {fileID: 455693328575790621}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Hair (Purple)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

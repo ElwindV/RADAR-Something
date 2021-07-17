@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 23090905985009374}
   - component: {fileID: 54353390172178936}
   - component: {fileID: 114889255741586984}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: EnemyRed
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -127,12 +127,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mode: 0
   startHP: 5
-  hitPoints: 0
-  explosions:
-  - {fileID: 1260942026871830, guid: 73068622a79686f4ca0b887f8ad36ed3, type: 3}
-  - {fileID: 1946882585969968, guid: f2e9ef283267d024f81bb854636e024c, type: 3}
   eventChannelSO: {fileID: 11400000, guid: 09493f8b2883c9147a94b6b28842c2dd, type: 2}
   hurtSfx: {fileID: 11400000, guid: 14a5c14870ce8ee4b88158c93ad4f761, type: 2}
   deathSfx: {fileID: 11400000, guid: d06184e198144124180bc9d562327957, type: 2}
   direction: {x: 0, y: 0, z: 0}
-  timer: 0

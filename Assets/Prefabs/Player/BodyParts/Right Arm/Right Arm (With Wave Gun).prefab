@@ -1,5 +1,35 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &616261294626852265
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5087652549453263356}
+  m_Layer: 0
+  m_Name: Bullet Spawn Point
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5087652549453263356
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 616261294626852265}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.4451, y: 0.3448, z: 0.2798}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5177455385701385100}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &845659526018709936
 GameObject:
   m_ObjectHideFlags: 0
@@ -11,7 +41,8 @@ GameObject:
   - component: {fileID: 5177455385701385100}
   - component: {fileID: 1019818620554207660}
   - component: {fileID: 1635228972201972167}
-  m_Layer: 0
+  - component: {fileID: -232483777813826162}
+  m_Layer: 3
   m_Name: Right Arm (With Wave Gun)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28,7 +59,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 5087652549453263356}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -81,3 +113,23 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &-232483777813826162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 845659526018709936}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74ebceb726dd58a41aa31407005bcc33, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletSpawnPoint: {fileID: 5087652549453263356}
+  shootDelay: 0.8
+  bulletsPerShot: 1
+  spread: 0
+  bulletPrefab: {fileID: 1166123111221648, guid: 17685009eb1f0a9478ee0dafc8625b00,
+    type: 3}
+  eventChannelSO: {fileID: 11400000, guid: 09493f8b2883c9147a94b6b28842c2dd, type: 2}
+  shootSfx: {fileID: 11400000, guid: 14e027db01dc9fa4db7e58a640f5eb7b, type: 2}

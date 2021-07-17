@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1530802872142553083}
   - component: {fileID: 6578105093923270365}
   - component: {fileID: 2461543168899295042}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Scarf (Brown)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

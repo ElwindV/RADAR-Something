@@ -10,15 +10,16 @@ TagManager:
   - Enemy
   - EnemySpawn
   - Pickup
+  - Bullet
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
-  - 
-  - 
+  - Enemy
+  - Bullet
   - 
   - 
   - 
