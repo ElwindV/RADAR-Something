@@ -3,7 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using Gameplay;
 using UnityEngine;
+#if ENABLE_CLOUD_SERVICES_ANALYTICS
 using UnityEngine.Analytics;
+#endif
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
@@ -108,6 +110,7 @@ namespace Managers
                 return;
             }
             
+            #if ENABLE_CLOUD_SERVICES_ANALYTICS
             AnalyticsEvent.LevelComplete($"wave_{_wave}", new Dictionary<string, object>
             {
                 {"wave", _wave}, 
@@ -115,6 +118,7 @@ namespace Managers
                 {"time_elapsed", Time.timeSinceLevelLoad - _waveTime},
                 {"health", _player.hitPoints }
             });
+            #endif
 
             _waveTime = Time.timeSinceLevelLoad;
             _wave++;
@@ -129,10 +133,7 @@ namespace Managers
         
         }
 
-        public void ResetMultiplier()
-        {
-            multiplier = 1;
-        }
+        public void ResetMultiplier() => multiplier = 1;
 
         public void AddScore(int value)
         {
@@ -144,7 +145,10 @@ namespace Managers
 
         public void EndGame()
         {
+            #if ENABLE_CLOUD_SERVICES_ANALYTICS
             AnalyticsEvent.GameOver();
+            #endif
+            
             _isDead = true;
         }
 
