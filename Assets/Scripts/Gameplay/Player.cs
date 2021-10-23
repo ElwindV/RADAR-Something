@@ -45,7 +45,7 @@ namespace Gameplay
         public void FixedUpdate()
         {
             if (Input.GetKey("escape"))
-                _gameManager.ExitGame();
+                GameManager.ExitGame();
 
             _rigidbody.velocity = new Vector3(Input.GetAxisRaw("LeftJoyX"), 0, Input.GetAxisRaw("LeftJoyY")) * (speed * 50f * Time.fixedDeltaTime);
 

@@ -50,7 +50,6 @@ namespace Managers
         public void Awake()
         {
             AnalyticsEvent.GameStart();
-            AnalyticsEvent.LevelStart($"wave_{_wave}");
             _time = beginTime;
             _spawnPoints = GameObject.FindGameObjectsWithTag("EnemySpawn");
             _player = GameObject.FindGameObjectWithTag("Player")?.GetComponent<Player>();
@@ -108,12 +107,13 @@ namespace Managers
             if (!(_enemyCount == 0 && !_hasWon && !_isDead)) {
                 return;
             }
-
-            AnalyticsEvent.LevelComplete($"wave_{_wave}");
-            AnalyticsEvent.Custom($"wave_{_wave}_completed", new Dictionary<string, object> {
-                {"wave", _wave},
-                {"score", score},
-                {"time_elapsed", Time.timeSinceLevelLoad - _waveTime}
+            
+            AnalyticsEvent.LevelComplete($"wave_{_wave}", new Dictionary<string, object>
+            {
+                {"wave", _wave}, 
+                {"score", score}, 
+                {"time_elapsed", Time.timeSinceLevelLoad - _waveTime},
+                {"health", _player.hitPoints }
             });
 
             _waveTime = Time.timeSinceLevelLoad;
@@ -122,7 +122,6 @@ namespace Managers
             if (_wave < enemyPerWave?.Length) {
                 _player.RestoreHealth(); _time += extraTimePerWave;
                 StartCoroutine(SpawnEnemies(enemyPerWave[_wave - 1]));
-                AnalyticsEvent.LevelStart($"wave_{_wave}");
             }
             else {
                 _hasWon = true;
@@ -146,13 +145,11 @@ namespace Managers
         public void EndGame()
         {
             AnalyticsEvent.GameOver();
-            AnalyticsEvent.LevelFail($"wave_{_wave}");
             _isDead = true;
         }
 
-        public void ExitGame() 
+        public static void ExitGame() 
         {
-            AnalyticsEvent.LevelQuit($"wave_{_wave}");
             Application.Quit();
         }
 
