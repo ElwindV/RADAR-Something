@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: EnemyHit
   m_EditorClassIdentifier: 
   type: 0
-  clip: {fileID: 0}
+  clip: {fileID: 8300000, guid: 491763c249d1d0346a8c9590a8901fee, type: 3}
   volume: 1
