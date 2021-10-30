@@ -69,7 +69,7 @@ namespace Managers
 
         private void HandleText() 
         {
-            if (timeText != null) timeText.text = "Time: " + (int)_time;
+            if (timeText != null) timeText.text = "Time: " + (int) _time;
         
             if (scoreText != null) scoreText.text = "Score: " + score + "   " + multiplier + "X";
 
@@ -116,7 +116,7 @@ namespace Managers
                 {"wave", _wave}, 
                 {"score", score}, 
                 {"time_elapsed", Time.timeSinceLevelLoad - _waveTime},
-                {"health", _player.hitPoints }
+                {"health", _player?.hitPoints }
             });
             #endif
 
