@@ -8,7 +8,7 @@ namespace Managers
     {
         public void Awake()
         {
-            SceneManager.LoadScene(1, LoadSceneMode.Additive);
+            // SceneManager.LoadScene(1, LoadSceneMode.Additive);
         }
 
         public void FixedUpdate()

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Gameplay;
+using TMPro;
 using UnityEngine;
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
 using UnityEngine.Analytics;
@@ -16,13 +17,13 @@ namespace Managers
         [Header("Time")]
         [Range(0, 100)] public float beginTime = 120f;
         private float _time;
-        public Text timeText;
+        public TextMeshProUGUI timeText;
         [Range(0, 30)] public float extraTimePerWave;
 
         [Header("Score")]
         [HideInInspector]
         public int score;
-        public Text scoreText;
+        public TextMeshProUGUI scoreText;
 
         [Header("Death")]
         public AnimationCurve slowDownRate;
@@ -38,8 +39,8 @@ namespace Managers
         [NonSerialized] public int multiplier = 1;
 
         [Header("Spawning of Enemies")]
-        public Text waveText;
-        public Text remainingText;
+        public TextMeshProUGUI waveText;
+        public TextMeshProUGUI remainingText;
         public GameObject[] enemies;
         private GameObject[] _spawnPoints;
         private int _wave;
